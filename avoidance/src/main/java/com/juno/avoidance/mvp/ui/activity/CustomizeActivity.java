@@ -1,0 +1,125 @@
+package com.juno.avoidance.mvp.ui.activity;
+
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.jess.arms.base.BaseActivity;
+import com.jess.arms.di.component.AppComponent;
+import com.jess.arms.utils.ArmsUtils;
+
+import com.juno.avoidance.di.component.DaggerCustomizeComponent;
+import com.juno.avoidance.mvp.contract.CustomizeContract;
+import com.juno.avoidance.mvp.model.entity.MsgTitle;
+import com.juno.avoidance.mvp.presenter.CustomizePresenter;
+
+import com.juno.avoidance.R;
+import com.juno.avoidance.utils.ObjectUtil;
+import com.juno.avoidance.utils.QMUIUtil;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.r0adkll.slidr.Slidr;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+import static com.jess.arms.utils.Preconditions.checkNotNull;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
+
+
+/**
+ * ================================================
+ * Description:
+ * <p>
+ * Created by MVPArmsTemplate on 04/18/2019 15:18
+ * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
+ * <a href="https://github.com/JessYanCoding">Follow me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
+ * ================================================
+ */
+public class CustomizeActivity extends BaseActivity<CustomizePresenter> implements CustomizeContract.View {
+
+    @BindView(R.id.tv_custom_title)
+    TextView titleTv;
+
+    @BindView(R.id.iv_custom_back)
+    ImageView backIv;
+
+    @OnClick(R.id.iv_custom_back)
+    void back() {
+        finish();
+    }
+
+    @Override
+    public void setupActivityComponent(@NonNull AppComponent appComponent) {
+        DaggerCustomizeComponent //如找不到该类,请编译一下项目
+                .builder()
+                .appComponent(appComponent)
+                .view(this)
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public int initView(@Nullable Bundle savedInstanceState) {
+        return R.layout.activity_customize; //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
+        at(() -> QMUIStatusBarHelper.translucent(this))
+                .still(() -> Slidr.attach(this))
+                .another(getIntent().getSerializableExtra(MsgTitle.M))
+                .map((Mapper<MsgTitle, String>) msgTitle -> msgTitle.title)
+                .store()
+                .another(titleTv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
+                .receive("setText")
+                .another(backIv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f);
+
+    }
+
+    /**
+     * Created by Juno at 14:40, 2019/4/16.
+     * dialog description : 用于展示加载状态
+     */
+    private Dialog mDialog = null;
+
+    @Override
+    public void showLoading() {
+        mDialog = ObjectUtil.Again.from(mDialog)
+                .lazy(() -> QMUIUtil.load(this, "正在加载..."))
+                .next("show")
+                .get();
+    }
+
+    @Override
+    public void hideLoading() {
+        from(mDialog, "dismiss");
+    }
+
+    /**
+     * Created by Juno at 15:25, 2019/4/18.
+     * showMessage description : 以下为模板自动生成的方法
+     */
+    @Override
+    public void showMessage(@NonNull String message) {
+        checkNotNull(message);
+        ArmsUtils.snackbarText(message);
+    }
+
+    @Override
+    public void launchActivity(@NonNull Intent intent) {
+        checkNotNull(intent);
+        ArmsUtils.startActivity(intent);
+    }
+
+    @Override
+    public void killMyself() {
+        finish();
+    }
+}

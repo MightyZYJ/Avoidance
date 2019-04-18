@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="agree">同意QG科技创新团队的&lt;font color="#3D90F5"&gt;用户协议&lt;/font&gt;和&lt;font color="#3D90F5"&gt;隐私政策&lt;/font&gt;</string>
+    <string name="send_verify">发送验证码</string>
+
+    <string name="active">&lt;font color="#3D90F5"&gt;在线中&lt;/font&gt;</string>
+    <string name="inactive">&lt;font color="#FC454A"&gt;离线&lt;/font&gt;</string>
+
+</resources>

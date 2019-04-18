@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="tabs">
+        <item>设备</item>
+        <item>联系人</item>
+        <item>救援</item>
+    </array>
+
+    <array name="devices">
+        <item>自定义设备</item>
+        <item>GPS定位设备</item>
+        <item>智能手环</item>
+    </array>
+
+</resources>

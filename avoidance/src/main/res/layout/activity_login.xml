@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorPrimary"
+        android:padding="4dp"
+        android:src="@drawable/pic_logo"
+        app:riv_corner_radius="@dimen/corner_radius_size"
+        app:riv_mutate_background="true" />
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/mtf_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="10dp"
+        app:mtf_backgroundColor="@color/colorPrimary"
+        app:mtf_cardCollapsedHeight="1dp"
+        app:mtf_hasFocus="true"
+        app:mtf_image="@drawable/icon_mobilephone"
+        app:mtf_labelColor="#777777"
+        app:mtf_openKeyboardOnFocus="true">
+
+        <com.andreabaccega.widget.FormEditText
+            android:id="@+id/fet_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="+86 手机号码"
+            android:inputType="number"
+            android:maxLength="11"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            app:customRegexp="^\\d{11}$"
+            app:emptyErrorString="请输入手机号码"
+            app:testErrorString="请输入11位手机号码"
+            app:testType="regexp" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal">
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/mtf_verify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            app:mtf_backgroundColor="@color/colorPrimary"
+            app:mtf_cardCollapsedHeight="1dp"
+            app:mtf_image="@drawable/icon_message"
+            app:mtf_labelColor="#777777"
+            app:mtf_openKeyboardOnFocus="true">
+
+            <com.andreabaccega.widget.FormEditText
+                android:id="@+id/fet_verify"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint=" 短信验证码"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:customRegexp="^\\d{3,4}$"
+                app:emptyErrorString="请输入验证码"
+                app:testErrorString="验证码位数错误"
+                app:testType="regexp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            android:id="@+id/btn_verify"
+            style="@style/QMUI.RoundButton"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="2"
+            android:text="@string/send_verify"
+            android:textColor="@color/color_button_state"
+            app:qmui_borderColor="@color/color_button_state"
+            app:qmui_borderWidth="1dp"
+            app:qmui_radius="@dimen/corner_radius_size" />
+
+    </LinearLayout>
+
+    <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/xml_login"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPrimary"
+        fancy:fb_focusColor="#317CD8"
+        fancy:fb_iconPosition="left"
+        fancy:fb_iconResource="@mipmap/icon_login"
+        fancy:fb_radius="@dimen/corner_radius_size"
+        fancy:fb_text="登陆"
+        fancy:fb_textColor="#FFFFFF" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="10dp"
+            android:textSize="11sp" />
+
+    </FrameLayout>
+
+</LinearLayout>
