@@ -17,6 +17,7 @@ import java.util.List;
  * When I met you in the summer.
  * Description : Fragment Util
  */
+@SuppressWarnings("unused")
 public class FragmentUtil {
 
     /**

@@ -30,10 +30,10 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            minifyEnabled true
+//            shrinkResources true
+//            zipAlignEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -66,7 +66,6 @@ dependencies {
     implementation 'com.github.armcha:LuseenBottomNavigation:1.8.2' //底部导航栏
     implementation 'com.zhy:base-rvadapter:3.0.3' //万能adapter
     implementation 'com.r0adkll:slidableactivity:2.0.6' //滑动返回
-    implementation 'com.justkiddingbaby:fragment-rigger:1.4.4' //fragment
 
     //view
     implementation rootProject.ext.dependencies["design"]

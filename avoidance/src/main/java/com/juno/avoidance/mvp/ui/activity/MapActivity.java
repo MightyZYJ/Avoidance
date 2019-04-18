@@ -14,6 +14,10 @@ import butterknife.ButterKnife;
 
 import static com.juno.avoidance.utils.ObjectUtil.Again.at;
 
+/**
+ * Created by Juno at 21:11, 2019/4/18.
+ * MapActivity description : 地图界面
+ */
 public class MapActivity extends AppCompatActivity {
 
     @BindView(R.id.map)

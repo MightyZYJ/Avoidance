@@ -5,7 +5,6 @@ import com.juno.avoidance.mvp.model.entity.Response;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
