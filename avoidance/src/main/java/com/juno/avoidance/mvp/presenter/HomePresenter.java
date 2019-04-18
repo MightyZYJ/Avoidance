@@ -12,6 +12,9 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import javax.inject.Inject;
 
 import com.juno.avoidance.mvp.contract.HomeContract;
+import com.juno.avoidance.mvp.model.entity.msg.MsgBanner;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**

@@ -14,7 +14,7 @@ import com.jess.arms.utils.ArmsUtils;
 
 import com.juno.avoidance.di.component.DaggerCustomizeComponent;
 import com.juno.avoidance.mvp.contract.CustomizeContract;
-import com.juno.avoidance.mvp.model.entity.MsgTitle;
+import com.juno.avoidance.mvp.model.entity.msg.MsgTitle;
 import com.juno.avoidance.mvp.presenter.CustomizePresenter;
 
 import com.juno.avoidance.R;

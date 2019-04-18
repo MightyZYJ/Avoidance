@@ -261,8 +261,7 @@ public class ObjectUtil {
         }
 
         public static Again at(Action action) {
-            action.action();
-            return new Again();
+            return new Again().still(action);
         }
 
         public Again still(Action action) {

@@ -79,7 +79,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * check description : 登陆
      */
     public void check(String phone, String verify) {
-        mModel.check(phone, verify)
+
+        //DEBUG
+        ArmsUtils.startActivity(HomeActivity.class);
+        mRootView.killMyself();
+
+        /*mModel.check(phone, verify)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(1, 2))
                 .doOnSubscribe(disposable -> mRootView.showLoading())
@@ -96,7 +101,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                             mRootView.showMessage(response.getInfo());
                         }
                     }
-                });
+                });*/
     }
 
     /**
@@ -104,7 +109,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      * request description : 发送验证码
      */
     public LoginPresenter request(String phone) {
-        mModel.request(phone)
+
+        //DEBUG
+        mRootView.showMessage("验证码已发送，注意查看短信");
+        mRootView.verify();
+
+        /*mModel.request(phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retryWhen(new RetryWithDelay(1, 2))
@@ -117,7 +127,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.showMessage(response.to() == Response.StateCodeEnum.OK ? "验证码已发送，注意查看短信" : response.getInfo());
                         mRootView.verify();
                     }
-                });
+                });*/
         return this;
     }
 

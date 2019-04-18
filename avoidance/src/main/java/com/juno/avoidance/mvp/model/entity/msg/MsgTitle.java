@@ -1,4 +1,4 @@
-package com.juno.avoidance.mvp.model.entity;
+package com.juno.avoidance.mvp.model.entity.msg;
 
 import java.io.Serializable;
 

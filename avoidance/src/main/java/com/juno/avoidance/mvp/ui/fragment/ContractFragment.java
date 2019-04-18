@@ -5,12 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.jess.arms.di.component.AppComponent;
-import com.jkb.fragment.rigger.annotation.LazyLoad;
-import com.jkb.fragment.rigger.annotation.Puppet;
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.presenter.HomePresenter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
-import com.juno.avoidance.mvp.ui.fragment.base.PuppetFragment;
 
 /**
  * Created by Juno.
