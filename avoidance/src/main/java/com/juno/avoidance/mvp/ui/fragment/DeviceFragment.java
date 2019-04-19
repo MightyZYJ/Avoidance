@@ -12,7 +12,7 @@ import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.model.entity.Device;
-import com.juno.avoidance.mvp.model.entity.DeviceFactory;
+import com.juno.avoidance.mvp.model.entity.factory.DeviceFactory;
 import com.juno.avoidance.mvp.model.entity.msg.MsgTitle;
 import com.juno.avoidance.mvp.presenter.HomePresenter;
 import com.juno.avoidance.mvp.ui.activity.CustomizeActivity;

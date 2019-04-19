@@ -8,14 +8,15 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jess.arms.di.component.AppComponent;
 import com.juno.avoidance.R;
-import com.juno.avoidance.mvp.model.entity.HelperFactory;
+import com.juno.avoidance.mvp.model.entity.factory.HelperFactory;
+import com.juno.avoidance.mvp.model.entity.factory.RecordFactory;
 import com.juno.avoidance.mvp.model.entity.msg.MsgBanner;
 import com.juno.avoidance.mvp.presenter.HomePresenter;
 import com.juno.avoidance.mvp.ui.adapter.HelperAdapter;
+import com.juno.avoidance.mvp.ui.adapter.HistoryAdapter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
 import com.juno.avoidance.utils.BannerUtil;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,6 +37,9 @@ public class HelpFragment extends BindFragment<HomePresenter> {
 
     @BindView(R.id.rv_helpers)
     RecyclerView helpersRv;
+
+    @BindView(R.id.rv_help_history)
+    RecyclerView historyRv;
 
     @Override
     protected int layout() {
@@ -59,6 +63,9 @@ public class HelpFragment extends BindFragment<HomePresenter> {
 
         helpersRv.setLayoutManager(new LinearLayoutManager(getContext()));
         helpersRv.setAdapter(new HelperAdapter(getContext(), HelperFactory.create()));
+
+        historyRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        historyRv.setAdapter(new HistoryAdapter(getContext(), RecordFactory.create()));
 
     }
 
@@ -84,4 +91,5 @@ public class HelpFragment extends BindFragment<HomePresenter> {
     public void setBanner(MsgBanner msgBanner) {
         banner.setImages(msgBanner.urls).start();
     }
+
 }

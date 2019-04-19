@@ -1,7 +1,8 @@
-package com.juno.avoidance.mvp.model.entity;
+package com.juno.avoidance.mvp.model.entity.factory;
 
 import com.jess.arms.base.App;
 import com.juno.avoidance.mvp.model.api.Api;
+import com.juno.avoidance.mvp.model.entity.Device;
 
 import java.util.ArrayList;
 import java.util.List;

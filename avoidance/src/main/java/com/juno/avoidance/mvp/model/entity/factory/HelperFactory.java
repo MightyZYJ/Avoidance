@@ -1,4 +1,6 @@
-package com.juno.avoidance.mvp.model.entity;
+package com.juno.avoidance.mvp.model.entity.factory;
+
+import com.juno.avoidance.mvp.model.entity.Helper;
 
 import java.util.ArrayList;
 import java.util.List;

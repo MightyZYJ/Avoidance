@@ -1,5 +1,6 @@
 package com.juno.avoidance.mvp.model.entity.http;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -58,6 +59,14 @@ public class Response {
                     return UNKNOWN;
             }
         }
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class RequestRecord {
+        private double latitude;
+        private double longitude;
+        private String info;
     }
 
 }

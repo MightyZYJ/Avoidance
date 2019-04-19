@@ -17,7 +17,7 @@ public class Request {
     @Data
     @AllArgsConstructor
     public static class RequestVerify {
-        String phone;
+        private String phone;
     }
 
     @Data
