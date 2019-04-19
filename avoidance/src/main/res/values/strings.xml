@@ -6,4 +6,17 @@
     <string name="active">&lt;font color="#3D90F5"&gt;在线中&lt;/font&gt;</string>
     <string name="inactive">&lt;font color="#FC454A"&gt;离线&lt;/font&gt;</string>
 
+    <string name="agreement">同意QG科技创新团队的用户协议和隐私政策 </string>
+    <string name="device_name">* 设备名称 ：</string>
+    <string name="function">* 作用 :</string>
+    <string name="first_aid">智能急救</string>
+    <string name="hardware">智能硬件</string>
+    <string name="study">个人学习</string>
+    <string name="available_services">可使用服务 :</string>
+    <string name="location">定位</string>
+    <string name="message">短信</string>
+    <string name="alarm">报警</string>
+    <string name="cancel">取消</string>
+    <string name="commit">提交</string>
+
 </resources>

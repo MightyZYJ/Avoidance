@@ -20,4 +20,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+
+
+    <style name="radiobuttonStyle">
+        <item name="android:button">@drawable/custom_radiobutton_selector</item>
+    </style>
+    <style name="checkboxStyle">
+        <item name="android:button">@drawable/custom_checkbox_selector</item>
+    </style>
 </resources>
