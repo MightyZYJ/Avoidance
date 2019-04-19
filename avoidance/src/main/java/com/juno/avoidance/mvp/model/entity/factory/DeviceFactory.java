@@ -1,6 +1,5 @@
 package com.juno.avoidance.mvp.model.entity.factory;
 
-import com.jess.arms.base.App;
 import com.juno.avoidance.mvp.model.api.Api;
 import com.juno.avoidance.mvp.model.entity.Device;
 
@@ -18,7 +17,7 @@ public class DeviceFactory {
 
     public static Device create(int i) {
         String url = Api.APP_DOMAIN + "/" + i + ".jpg";
-        return new Device.DeviceBuilder()
+        return Device.builder()
                 .url(url)
                 .title("我的设备" + i)
                 .build();
