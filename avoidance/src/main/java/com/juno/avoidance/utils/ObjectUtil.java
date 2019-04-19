@@ -225,7 +225,7 @@ public class ObjectUtil {
         public Again receive(String method) {
             if (notNull(sCache) && notNull(sCache.get())) {
                 next(method, sCache.get());
-                sCache = null;
+//                sCache = null;
             }
             return this;
         }

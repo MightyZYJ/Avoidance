@@ -12,4 +12,10 @@
         <item>智能手环</item>
     </array>
 
+    <array name="text">
+        <item>&lt;font color="#FC454A"&gt;*&lt;/font&gt; 设备名称：</item>
+        <item>&lt;font color="#FC454A"&gt;*&lt;/font&gt; 设备用途：</item>
+        <item>同意QG科技创新团队的&lt;font color="#3D90F5"&gt;用户协议&lt;/font&gt;和&lt;font color="#3D90F5"&gt;隐私政策&lt;/font&gt;</item>
+    </array>
+
 </resources>

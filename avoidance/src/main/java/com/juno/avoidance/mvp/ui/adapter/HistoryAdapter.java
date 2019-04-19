@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class HistoryAdapter extends CommonAdapter<Record> {
 
-    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy年MM月dd日-HH : mm");
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
 
     public HistoryAdapter(Context context, List<Record> datas) {
         super(context, R.layout.item_history, datas);

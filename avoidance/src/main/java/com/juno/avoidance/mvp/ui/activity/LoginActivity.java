@@ -26,6 +26,7 @@ import static com.juno.avoidance.utils.ObjectUtil.*;
 import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 import static com.juno.avoidance.utils.ViewUtil.animate;
 
+import com.juno.avoidance.socket.SocketService;
 import com.juno.avoidance.utils.QMUIUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
@@ -35,6 +36,7 @@ import java.lang.ref.WeakReference;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import mehdi.sakout.fancybuttons.FancyButton;
 
 
@@ -81,7 +83,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      * focus description : 点击外部后收回两个输入框
      */
     @OnClick(R.id.root_login)
-    void reduce() {
+    public void reduce() {
         verifyMtf.reduce();
         phoneMtf.reduce();
     }
@@ -91,7 +93,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      * verify description : 点击事件：发送验证码
      */
     @OnClick(R.id.btn_verify)
-    void verify(Button v) {
+    public void verify(Button v) {
         from(valid(phoneFet.testValidity(), true))
                 .store()
                 .another(mPresenter)
@@ -104,12 +106,25 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      * login description : 点击事件：登陆
      */
     @OnClick(R.id.btn_login)
-    void login(View v) {
+    public void login(View v) {
         at(() -> animate(v)) //点击动画
                 .another(valid(phoneFet.testValidity(), verifyFet.testValidity())) //验证手机号码、验证码格式
                 .store()
                 .another(mPresenter)
                 .when("check", phoneFet.getText().toString(), verifyFet.getText().toString()); //格式正确则请求登陆
+    }
+
+    /**
+     * Created by Juno at 16:48, 2019/4/19.
+     * success description : 长按跳过登陆
+     */
+    @Override
+    @OnLongClick(R.id.btn_login)
+    public boolean success() {
+        startService(new Intent(this, SocketService.class));
+        ArmsUtils.startActivity(HomeActivity.class);
+        killMyself();
+        return false;
     }
 
     @Override

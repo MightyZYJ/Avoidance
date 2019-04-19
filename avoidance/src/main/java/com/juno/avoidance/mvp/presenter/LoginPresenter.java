@@ -1,6 +1,7 @@
 package com.juno.avoidance.mvp.presenter;
 
 import android.app.Application;
+import android.app.IntentService;
 import android.widget.Button;
 
 import com.jess.arms.integration.AppManager;
@@ -11,14 +12,17 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
+import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 import javax.inject.Inject;
 
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.juno.avoidance.mvp.contract.LoginContract;
+import com.juno.avoidance.mvp.model.entity.http.Response;
 import com.juno.avoidance.mvp.ui.activity.HomeActivity;
 
 import java.lang.ref.WeakReference;
@@ -72,7 +76,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
         ArmsUtils.startActivity(HomeActivity.class);
         mRootView.killMyself();
 
-        /*mModel.check(phone, verify)
+        mModel.check(phone, verify)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(1, 2))
                 .doOnSubscribe(disposable -> mRootView.showLoading())
@@ -83,13 +87,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                     @Override
                     public void onNext(Response response) {
                         if (response.to() == Response.StateCodeEnum.OK) {
-                            ArmsUtils.startActivity(HomeActivity.class);
-                            mRootView.killMyself();
+                            mRootView.success();
                         } else {
                             mRootView.showMessage(response.getInfo());
                         }
                     }
-                });*/
+                });
     }
 
     /**
@@ -98,11 +101,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public LoginPresenter request(String phone) {
 
-        //DEBUG
-        mRootView.showMessage("验证码已发送，注意查看短信");
-        mRootView.verify();
-
-        /*mModel.request(phone)
+        mModel.request(phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retryWhen(new RetryWithDelay(1, 2))
@@ -115,7 +114,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                         mRootView.showMessage(response.to() == Response.StateCodeEnum.OK ? "验证码已发送，注意查看短信" : response.getInfo());
                         mRootView.verify();
                     }
-                });*/
+                });
         return this;
     }
 

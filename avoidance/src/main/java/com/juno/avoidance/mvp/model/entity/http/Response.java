@@ -61,12 +61,17 @@ public class Response {
         }
     }
 
+
     @Data
-    @AllArgsConstructor
-    public static class RequestRecord {
-        private double latitude;
-        private double longitude;
-        private String info;
+    public static class ResponseRecord {
+        private ResponseRecord result;
+
+        @Data
+        public static class Record {
+            private double latitude;
+            private double longitude;
+            private String info;
+        }
     }
 
 }

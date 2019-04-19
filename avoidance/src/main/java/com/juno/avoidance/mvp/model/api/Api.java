@@ -12,5 +12,6 @@ package com.juno.avoidance.mvp.model.api;
 public interface Api {
 //    String APP_DOMAIN = "https://api.github.com";
     String APP_DOMAIN = "http://192.168.31.62:8080";
+    String APP_SOCKET = "ws://192.168.31.62:8080/ws?gid=1";
 
 }

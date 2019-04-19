@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.amap.api.maps2d.MapView;
 import com.juno.avoidance.R;
 import com.juno.avoidance.utils.ObjectUtil.Again.*;
+import com.juno.avoidance.utils.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.r0adkll.slidr.Slidr;
 
@@ -29,7 +30,7 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         at(() -> ButterKnife.bind(this))
-                .still(() -> Slidr.attach(this))
+                .still(() -> Slidr.attach(this, SlidrUtil.config(this)))
                 .still(() -> QMUIStatusBarHelper.setStatusBarLightMode(this))
                 .still(() -> mapView.onCreate(savedInstanceState));
     }

@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Html;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +23,11 @@ import com.juno.avoidance.mvp.presenter.CustomizePresenter;
 import com.juno.avoidance.R;
 import com.juno.avoidance.utils.ObjectUtil;
 import com.juno.avoidance.utils.QMUIUtil;
+import com.juno.avoidance.utils.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.r0adkll.slidr.Slidr;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -50,7 +55,22 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
     @BindView(R.id.iv_custom_back)
     ImageView backIv;
 
-    @OnClick(R.id.iv_custom_back)
+    @BindView(R.id.tv_device_name)
+    TextView deviceNameTv;
+
+    @BindView(R.id.tv_function)
+    TextView functionTv;
+
+    @BindView(R.id.cb_agree)
+    CheckBox agreeCb;
+
+    @BindView(R.id.et_device_name)
+    EditText deviceNameEt;
+
+    @BindArray(R.array.text)
+    String[] text;
+
+    @OnClick({R.id.iv_custom_back, R.id.btn_cancel})
     void back() {
         finish();
     }
@@ -73,14 +93,18 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         at(() -> QMUIStatusBarHelper.translucent(this))
-                .still(() -> Slidr.attach(this))
+                .still(() -> Slidr.attach(this, SlidrUtil.config(this)))
                 .another(getIntent().getSerializableExtra(MsgTitle.M))
                 .map((Mapper<MsgTitle, String>) msgTitle -> msgTitle.title)
                 .store()
                 .another(titleTv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
                 .receive("setText")
+                .another(deviceNameEt)
+                .receive("setText")
+                .another(deviceNameTv, "setText", Html.fromHtml(text[0]))
+                .another(functionTv, "setText", Html.fromHtml(text[1]))
+                .another(agreeCb, "setText", Html.fromHtml(text[2]))
                 .another(backIv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f);
-
     }
 
     /**
