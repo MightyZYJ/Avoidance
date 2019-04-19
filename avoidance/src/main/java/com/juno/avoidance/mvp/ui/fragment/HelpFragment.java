@@ -3,11 +3,15 @@ package com.juno.avoidance.mvp.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.jess.arms.di.component.AppComponent;
 import com.juno.avoidance.R;
+import com.juno.avoidance.mvp.model.entity.HelperFactory;
 import com.juno.avoidance.mvp.model.entity.msg.MsgBanner;
 import com.juno.avoidance.mvp.presenter.HomePresenter;
+import com.juno.avoidance.mvp.ui.adapter.HelperAdapter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
 import com.juno.avoidance.utils.BannerUtil;
 import com.youth.banner.Banner;
@@ -30,6 +34,9 @@ public class HelpFragment extends BindFragment<HomePresenter> {
     @BindView(R.id.banner)
     Banner banner;
 
+    @BindView(R.id.rv_helpers)
+    RecyclerView helpersRv;
+
     @Override
     protected int layout() {
         return R.layout.fragment_help;
@@ -49,6 +56,10 @@ public class HelpFragment extends BindFragment<HomePresenter> {
     public void initData(@Nullable Bundle savedInstanceState) {
         banner.setImageLoader(new BannerUtil.GlideImageLoader()).setOnBannerListener(this::position);
         banner();
+
+        helpersRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        helpersRv.setAdapter(new HelperAdapter(getContext(), HelperFactory.create()));
+
     }
 
     /**

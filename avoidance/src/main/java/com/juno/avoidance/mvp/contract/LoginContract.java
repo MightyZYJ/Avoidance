@@ -2,7 +2,7 @@ package com.juno.avoidance.mvp.contract;
 
 import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
-import com.juno.avoidance.mvp.model.entity.Response;
+import com.juno.avoidance.mvp.model.entity.http.Response;
 
 import io.reactivex.Observable;
 

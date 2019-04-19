@@ -1,7 +1,7 @@
 package com.juno.avoidance.mvp.model.api.service;
 
-import com.juno.avoidance.mvp.model.entity.Request;
-import com.juno.avoidance.mvp.model.entity.Response;
+import com.juno.avoidance.mvp.model.entity.http.Request;
+import com.juno.avoidance.mvp.model.entity.http.Response;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;

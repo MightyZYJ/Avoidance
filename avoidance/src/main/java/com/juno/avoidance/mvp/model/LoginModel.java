@@ -12,14 +12,10 @@ import javax.inject.Inject;
 
 import com.juno.avoidance.mvp.contract.LoginContract;
 import com.juno.avoidance.mvp.model.api.service.LoginService;
-import com.juno.avoidance.mvp.model.entity.Request;
-import com.juno.avoidance.mvp.model.entity.Response;
+import com.juno.avoidance.mvp.model.entity.http.Request;
+import com.juno.avoidance.mvp.model.entity.http.Response;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.functions.Function;
-import io.rx_cache2.DynamicKey;
-import io.rx_cache2.EvictDynamicKey;
 import timber.log.Timber;
 
 

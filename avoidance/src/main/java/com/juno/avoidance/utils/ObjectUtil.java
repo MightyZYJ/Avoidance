@@ -323,7 +323,7 @@ public class ObjectUtil {
 
         /**
          * Created by Juno at 15:53, 2019/4/18.
-         * Mapper description : 用于转换
+         * Mapper description : 用于转换，map后记得使用clean，否则如果开启了方法缓存将会造成新对象找不到方法
          */
         public interface Mapper<Source, Target> {
             Target convert(Source source);

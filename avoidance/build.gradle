@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.zhy:base-rvadapter:3.0.3' //万能adapter
     implementation 'com.r0adkll:slidableactivity:2.0.6' //滑动返回
     implementation 'com.youth.banner:banner:1.4.10' //轮播图
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
 
     //view
     implementation rootProject.ext.dependencies["design"]
