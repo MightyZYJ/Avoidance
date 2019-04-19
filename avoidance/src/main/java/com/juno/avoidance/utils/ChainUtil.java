@@ -8,7 +8,7 @@ import java.util.List;
  * Date : 2019/4/16.
  * Time : 20:09.
  * When I met you in the summer.
- * Description :
+ * Description : 0第三发依赖的流水线调用工具，处理频繁的if else
  */
 public class ChainUtil {
 

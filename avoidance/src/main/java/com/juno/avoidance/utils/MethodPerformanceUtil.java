@@ -7,7 +7,7 @@ import timber.log.Timber;
  * Date : 2019/4/19.
  * Time : 20:13.
  * When I met you in the summer.
- * Description : 性能监控
+ * Description : 性能监控，调用begin和end，打印使用时间
  */
 @SuppressWarnings("unused")
 public class MethodPerformanceUtil {

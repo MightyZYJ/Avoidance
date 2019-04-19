@@ -28,7 +28,7 @@ import butterknife.BindView;
  * Date : 2019/4/17.
  * Time : 17:34.
  * When I met you in the summer.
- * Description :
+ * Description : 救援Fragment
  */
 public class HelpFragment extends BindFragment<HomePresenter> {
 
@@ -79,7 +79,7 @@ public class HelpFragment extends BindFragment<HomePresenter> {
     }
 
     private void position(int position) {
-        //TODO
+        //TODO 广告点击事件
     }
 
     @Override

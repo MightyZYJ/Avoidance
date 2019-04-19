@@ -19,7 +19,7 @@ import static com.juno.avoidance.utils.ObjectUtil.Again.*;
  * Date : 2019/4/19.
  * Time : 10:05.
  * When I met you in the summer.
- * Description :
+ * Description : 救援项目的适配器
  */
 public class HelperAdapter extends CommonAdapter<Helper> implements SwitchButton.OnCheckedChangeListener {
 

@@ -13,7 +13,7 @@ import com.youth.banner.loader.ImageLoader;
  * Date : 2019/4/18.
  * Time : 22:22.
  * When I met you in the summer.
- * Description :
+ * Description : 提供一个圆角的Banner
  */
 public class BannerUtil {
 

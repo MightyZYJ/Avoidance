@@ -22,7 +22,7 @@ import static com.juno.avoidance.utils.NotificationUtil.Manager.CHANNEL_ID;
  * Date : 2019/4/19.
  * Time : 15:21.
  * When I met you in the summer.
- * Description :
+ * Description : 前台服务
  */
 @SuppressWarnings("unused")
 public class SocketService extends Service {

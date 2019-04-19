@@ -37,7 +37,7 @@ import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
 /**
  * ================================================
- * Description: 自定义设备
+ * Description: 自定义设备界面
  * <p>
  * Created by MVPArmsTemplate on 04/18/2019 15:18
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>

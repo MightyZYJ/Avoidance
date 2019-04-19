@@ -17,7 +17,7 @@ import java.util.Locale;
  * Date : 2019/4/19.
  * Time : 14:07.
  * When I met you in the summer.
- * Description :
+ * Description : 历史纪录的适配器
  */
 public class HistoryAdapter extends CommonAdapter<Record> {
 

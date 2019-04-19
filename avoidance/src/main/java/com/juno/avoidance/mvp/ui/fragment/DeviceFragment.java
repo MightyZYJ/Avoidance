@@ -32,7 +32,7 @@ import static com.juno.avoidance.utils.ObjectUtil.Again.*;
  * Date : 2019/4/17.
  * Time : 11:37.
  * When I met you in the summer.
- * Description :
+ * Description : 设备Fragment
  */
 public class DeviceFragment extends BindFragment<HomePresenter> implements MultiChoicesCircleButton.OnSelectedItemListener {
 

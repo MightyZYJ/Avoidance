@@ -19,7 +19,7 @@ import com.juno.avoidance.mvp.model.entity.http.Response.*;
  * Date : 2019/4/19.
  * Time : 15:33.
  * When I met you in the summer.
- * Description :
+ * Description : socket监听器
  */
 public class WebSocketManager extends WebSocketListener {
 

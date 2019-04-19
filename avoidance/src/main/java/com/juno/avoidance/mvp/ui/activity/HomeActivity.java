@@ -78,8 +78,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        at(() -> QMUIStatusBarHelper.translucent(HomeActivity.this)). //沉浸式
-                another(homeBnv) //设置底部导航栏
+        at(() -> QMUIStatusBarHelper.translucent(HomeActivity.this)) //沉浸式
+                .another(homeBnv) //设置底部导航栏
                 .cache(true)
                 .next("addTab", new BottomNavigationItem(tabs[0], blue, R.drawable.icon_hardware_fill))
                 .same(new BottomNavigationItem(tabs[1], blue, R.drawable.icon_group))

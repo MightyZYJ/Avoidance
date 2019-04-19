@@ -220,12 +220,11 @@ public class ObjectUtil {
 
         /**
          * Created by Juno at 21:37, 2019/4/17.
-         * receive description : 使用give保存的临时变量来入参，执行后清空缓存
+         * receive description : 使用give保存的临时变量来入参，执行后不会清空缓存
          */
         public Again receive(String method) {
             if (notNull(sCache) && notNull(sCache.get())) {
                 next(method, sCache.get());
-//                sCache = null;
             }
             return this;
         }

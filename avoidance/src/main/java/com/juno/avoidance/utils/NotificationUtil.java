@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
  * Date : 2019/4/19.
  * Time : 16:06.
  * When I met you in the summer.
- * Description :
+ * Description : 发送一个不带自定义界面的通知
  */
 public class NotificationUtil {
 

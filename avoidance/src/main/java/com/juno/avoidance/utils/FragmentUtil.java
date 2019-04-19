@@ -15,7 +15,7 @@ import java.util.List;
  * Date : 2019/4/16.
  * Time : 20:03.
  * When I met you in the summer.
- * Description : Fragment Util
+ * Description : Fragment Util 以栈的方式存储、展示Fragment，并提供和ViewPager一起使用的方法
  */
 @SuppressWarnings("unused")
 public class FragmentUtil {
@@ -57,7 +57,7 @@ public class FragmentUtil {
                     for (int i = list.size() - 1; i >= 0; --i) {
                         if (list.get(i) != index) {
                             f.hide(fragments.get(list.get(i)));
-                        }else {
+                        } else {
                             break;
                         }
                     }

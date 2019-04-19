@@ -15,8 +15,9 @@ import java.util.List;
  */
 public class DeviceFactory {
 
-    public static Device create(int i) {
-        String url = Api.APP_DOMAIN + "/" + i + ".jpg";
+    public static Device create(int i) { //TODO 更换图片url
+//        String url = Api.APP_DOMAIN + "/" + i + ".jpg";
+        String url = Api.APP_IMAGE + "/" + i + ".jpg";
         return Device.builder()
                 .url(url)
                 .title("我的设备" + i)

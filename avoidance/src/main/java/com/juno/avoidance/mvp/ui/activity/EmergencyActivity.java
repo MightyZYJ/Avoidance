@@ -18,7 +18,7 @@ import butterknife.OnClick;
  * Date : 2019/4/19.
  * Time : 16:42.
  * When I met you in the summer.
- * Description :
+ * Description : 紧急界面
  */
 public class EmergencyActivity extends AppCompatActivity {
 

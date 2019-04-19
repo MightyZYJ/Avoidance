@@ -19,7 +19,7 @@ import butterknife.Unbinder;
  * Date : 2019/4/17.
  * Time : 11:44.
  * When I met you in the summer.
- * Description :
+ * Description : 绑定ButterKnife的Fragment基类
  */
 public abstract class BindFragment<T extends IPresenter> extends BaseFragment<T> {
 

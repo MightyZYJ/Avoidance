@@ -13,7 +13,7 @@ import com.r0adkll.slidr.model.SlidrPosition;
  * Date : 2019/4/19.
  * Time : 14:59.
  * When I met you in the summer.
- * Description :
+ * Description : 提供Slidr的Config
  */
 public class SlidrUtil {
 

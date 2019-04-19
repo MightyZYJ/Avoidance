@@ -10,7 +10,7 @@ import android.view.View;
  * Date : 2019/4/16.
  * Time : 10:08.
  * When I met you in the summer.
- * Description :
+ * Description : 作用于一般的View上
  */
 public class ViewUtil {
 

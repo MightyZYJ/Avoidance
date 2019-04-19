@@ -22,10 +22,14 @@ public class MsgBanner {
 
     public static MsgBanner getInstance() {
         List<String> urls = new ArrayList<>();
-        urls.add(Api.APP_DOMAIN + "/1.jpg");
-        urls.add(Api.APP_DOMAIN + "/2.jpg");
-        urls.add(Api.APP_DOMAIN + "/3.jpg");
-        urls.add(Api.APP_DOMAIN + "/4.jpg");
+//        urls.add(Api.APP_DOMAIN + "/1.jpg");
+//        urls.add(Api.APP_DOMAIN + "/2.jpg");
+//        urls.add(Api.APP_DOMAIN + "/3.jpg");
+//        urls.add(Api.APP_DOMAIN + "/4.jpg");
+        urls.add(Api.APP_IMAGE + "/1.jpg");
+        urls.add(Api.APP_IMAGE + "/2.jpg");
+        urls.add(Api.APP_IMAGE + "/3.jpg");
+        urls.add(Api.APP_IMAGE + "/4.jpg");
         return new MsgBanner(urls);
     }
 }

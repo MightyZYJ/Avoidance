@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:background="@color/colorPrimaryDark">
 
     <ImageView
+        android:id="@+id/iv_contract"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/iv_contract"
-        android:src="@drawable/person"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="20dp"
-        />
+        android:src="@drawable/person" />
 
     <TextView
+        android:id="@+id/tv_contract_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_contract_name"
-        android:text="xxx"
-        android:textSize="16sp"
-        android:textColor="@color/text_color"
-        android:layout_toEndOf="@+id/iv_contract"
         android:layout_centerVertical="true"
-        android:layout_marginStart="50dp"
-        />
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/iv_contract"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_alignParentBottom="true"
-        android:background="#C9C9C9"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"
+        android:background="#C9C9C9" />
 
 </RelativeLayout>
