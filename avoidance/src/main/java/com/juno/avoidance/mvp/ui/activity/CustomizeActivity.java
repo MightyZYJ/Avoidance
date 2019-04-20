@@ -84,7 +84,7 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
     @OnClick(R.id.btn_commit)
     public void commit() {
         new QMUIDialog.MessageDialogBuilder(this)
-                .setTitle("消息")
+                .setTitle("申请成功")
                 .setMessage("你的设备正在审核中，3个工作日将会收到结果，请留意短信通知")
                 .setCancelable(false)
                 .setCanceledOnTouchOutside(false)

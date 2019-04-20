@@ -88,7 +88,8 @@ public class ContactFragment extends BindFragment implements MultiChoicesCircleB
                 .next("add", new MultiChoicesCircleButton.Item("添加联系人", help, 90))
                 .store()
                 .another(addMccb)
-                .receive("setButtonItems");
+                .receive("setButtonItems")
+                .next("setOnSelectedItemListener", this);
     }
 
     /**

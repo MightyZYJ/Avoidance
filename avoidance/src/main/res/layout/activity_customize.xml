@@ -177,7 +177,7 @@
             android:layout_below="@id/linear_server"
             android:layout_alignParentStart="true"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="@string/customize_data"
             android:textColor="@color/text_color"
             android:textSize="18sp" />
