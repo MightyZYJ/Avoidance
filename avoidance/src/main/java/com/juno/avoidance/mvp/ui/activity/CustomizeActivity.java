@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.juno.avoidance.utils.ObjectUtil;
 import com.juno.avoidance.utils.QMUIUtil;
 import com.juno.avoidance.utils.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.r0adkll.slidr.Slidr;
 
 import butterknife.BindArray;
@@ -66,6 +68,32 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
 
     @BindView(R.id.et_device_name)
     EditText deviceNameEt;
+
+    @OnClick({R.id.tv_location, R.id.tv_message, R.id.tv_alarm, R.id.tv_longitude, R.id.tv_latitude, R.id.iv_add_data})
+    public void pleaseWait() {
+        new QMUIDialog.MessageDialogBuilder(this)
+                .setTitle("消息")
+                .setMessage("功能完善中，敬请期待！")
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true)
+                .addAction("确定", (dialog, index) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
+    @OnClick(R.id.btn_commit)
+    public void commit() {
+        new QMUIDialog.MessageDialogBuilder(this)
+                .setTitle("消息")
+                .setMessage("你的设备正在审核中，3个工作日将会收到结果，请留意短信通知")
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .addAction("确定", (dialog, index) -> {
+                    dialog.dismiss();
+                    killMyself();
+                }).create()
+                .show();
+    }
 
     @BindArray(R.array.text)
     String[] text;

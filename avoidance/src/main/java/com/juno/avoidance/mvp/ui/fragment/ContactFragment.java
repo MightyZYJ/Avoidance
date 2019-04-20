@@ -1,5 +1,6 @@
 package com.juno.avoidance.mvp.ui.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
 
+import com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 import com.juno.avoidance.R;
@@ -18,6 +20,7 @@ import com.juno.avoidance.mvp.presenter.ContactPresenter;
 import com.juno.avoidance.mvp.ui.adapter.ContactAdapter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
 import com.juno.avoidance.utils.ChainUtil;
+import com.juno.avoidance.utils.ObjectUtil;
 import com.juno.avoidance.utils.QMUIUtil;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
@@ -26,8 +29,10 @@ import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindDrawable;
 import butterknife.BindString;
 import butterknife.BindView;
 import timber.log.Timber;
@@ -41,15 +46,21 @@ import static com.juno.avoidance.utils.ObjectUtil.Again.from;
  * When I met you in the summer.
  * Description : 联系人Fragment
  */
-public class ContactFragment extends BindFragment {
+public class ContactFragment extends BindFragment implements MultiChoicesCircleButton.OnSelectedItemListener {
 
     private ContactPresenter presenter;
 
     @BindView(R.id.rv_contact)
     RecyclerView contactRv;
 
+    @BindView(R.id.mccb_contact_add)
+    MultiChoicesCircleButton addMccb;
+
     @BindString(R.string.regex)
     String regex;
+
+    @BindDrawable(R.drawable.icon_help)
+    Drawable help;
 
     @Override
     protected int layout() {
@@ -68,9 +79,49 @@ public class ContactFragment extends BindFragment {
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        contactRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        presenter = new ContactPresenter(this);
-        presenter.show();
+        from(contactRv, "setLayoutManager", new LinearLayoutManager(getContext()))
+                .another(presenter)
+                .lazy(() -> new ContactPresenter(this))
+                .next("show")
+                .get((ObjectUtil.Again.Getter<ContactPresenter>) o -> presenter = o)
+                .another(new ArrayList<MultiChoicesCircleButton.Item>())
+                .next("add", new MultiChoicesCircleButton.Item("添加联系人", help, 90))
+                .store()
+                .another(addMccb)
+                .receive("setButtonItems");
+    }
+
+    /**
+     * Created by Juno at 23:17, 2019/4/20.
+     * onSelected description : 添加联系人按钮点击事件
+     */
+    @Override
+    public void onSelected(MultiChoicesCircleButton.Item item, int position) {
+        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
+        builder.setTitle("修改联系人")
+                .setPlaceholder("在此输入手机号加昵称")
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .addAction("取消", (dialog, index) -> dialog.dismiss())
+                .addAction("确定", (dialog, index) -> {
+
+                    final String text = builder.getEditText().getText().toString();
+
+                    ChainUtil.begin().stopWhen(true)
+                            .when(() -> text.length() < 11)
+                            .react(() -> showAndLog("输入过短"))
+
+                            .when(() -> text.length() > 20)
+                            .react(() -> showAndLog("输入过长"))
+
+                            .when(() -> !text.substring(0, 11).matches(regex))
+                            .react(() -> showAndLog("请检查手机号码"))
+
+                            .doWhenSuccess(() -> {
+                                presenter.add(text.substring(11), text.substring(0, 11));
+                                dialog.dismiss();
+                            }).flow();
+
+                }).create().show();
     }
 
     @Override
@@ -120,7 +171,7 @@ public class ContactFragment extends BindFragment {
                         .addAction("取消", (dialog, index) -> dialog.dismiss())
                         .addAction("确定", (dialog, index) -> {
 
-                            String text = builder.getEditText().getText().toString();
+                            final String text = builder.getEditText().getText().toString();
 
                             ChainUtil.begin().stopWhen(true)
                                     .when(() -> text.length() < 11)
@@ -174,4 +225,6 @@ public class ContactFragment extends BindFragment {
         presenter = null;
         contactRv.setAdapter(null);
     }
+
+
 }

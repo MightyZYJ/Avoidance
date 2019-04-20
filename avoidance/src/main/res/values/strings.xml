@@ -17,5 +17,6 @@
     <string name="commit">提交</string>
 
     <string name="regex">^\\d{11}$</string>
+    <string name="customize_data">自定义字段：</string>
 
 </resources>
