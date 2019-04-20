@@ -1,5 +1,9 @@
 package com.juno.avoidance.mvp.model.entity.http;
 
+import com.juno.avoidance.mvp.model.entity.Contact;
+
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -73,5 +77,15 @@ public class Response {
             private String info;
         }
     }
+
+    @Data
+    public static class ResponseContacts{
+
+        private int state;
+        private String info;
+        private List<Contact> data;
+    }
+
+
 
 }

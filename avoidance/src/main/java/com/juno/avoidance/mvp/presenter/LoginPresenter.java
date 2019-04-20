@@ -72,10 +72,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
      */
     public void check(String phone, String verify) {
 
-        //DEBUG
-        ArmsUtils.startActivity(HomeActivity.class);
-        mRootView.killMyself();
-
         mModel.check(phone, verify)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(1, 2))

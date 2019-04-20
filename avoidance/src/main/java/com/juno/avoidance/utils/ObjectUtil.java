@@ -418,34 +418,34 @@ public class ObjectUtil {
      */
     public static class ExecuteNonNull {
 
-        public interface Action {
-            void action(Object o);
+        public interface Action<T> {
+            void action(T o);
         }
 
         private Action whenNull = null;
         private Action whenNonNull = null;
 
-        private WeakReference<Object> objectWeakReference;
+        private WeakReference<?> objectWeakReference;
 
-        public static ExecuteNonNull start(Object object) {
-            return new ExecuteNonNull(object);
+        public static ExecuteNonNull start(Object o) {
+            return new ExecuteNonNull(o);
         }
 
         private ExecuteNonNull(Object o) {
             this.objectWeakReference = new WeakReference<>(o);
         }
 
-        public ExecuteNonNull whenNull(Action whenNull) {
+        public <T> ExecuteNonNull whenNull(Action<T> whenNull) {
             this.whenNull = whenNull;
             return this;
         }
 
-        public ExecuteNonNull whenNonNull(Action whenNonNull) {
+        public <T> ExecuteNonNull whenNonNull(Action<T> whenNonNull) {
             this.whenNonNull = whenNonNull;
             return this;
         }
 
-        public void execute() {
+        public <T> void execute() {
             Object o = objectWeakReference.get();
             if (checkNotNull(o) && checkNotNull(whenNonNull)) {
                 whenNonNull.action(o);

@@ -27,4 +27,17 @@ public class Request {
         private String authCode;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class RequestAddContact {
+        private String name;
+        private String phone;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class RequestDeleteContact {
+        private int id;
+    }
+
 }

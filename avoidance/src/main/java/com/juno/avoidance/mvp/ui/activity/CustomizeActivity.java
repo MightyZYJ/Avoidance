@@ -97,14 +97,14 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
                 .another(getIntent().getSerializableExtra(MsgTitle.M))
                 .map((Mapper<MsgTitle, String>) msgTitle -> msgTitle.title)
                 .store()
+                .another(backIv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
                 .another(titleTv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
                 .receive("setText")
                 .another(deviceNameEt)
                 .receive("setText")
                 .another(deviceNameTv, "setText", Html.fromHtml(text[0]))
                 .another(functionTv, "setText", Html.fromHtml(text[1]))
-                .another(agreeCb, "setText", Html.fromHtml(text[2]))
-                .another(backIv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f);
+                .another(agreeCb, "setText", Html.fromHtml(text[2]));
     }
 
     /**

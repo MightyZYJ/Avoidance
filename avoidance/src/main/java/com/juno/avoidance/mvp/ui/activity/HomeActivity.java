@@ -15,7 +15,7 @@ import com.juno.avoidance.mvp.contract.HomeContract;
 import com.juno.avoidance.mvp.presenter.HomePresenter;
 
 import com.juno.avoidance.R;
-import com.juno.avoidance.mvp.ui.fragment.ContractFragment;
+import com.juno.avoidance.mvp.ui.fragment.ContactFragment;
 import com.juno.avoidance.mvp.ui.fragment.DeviceFragment;
 import com.juno.avoidance.mvp.ui.fragment.HelpFragment;
 import com.juno.avoidance.utils.FragmentUtil;
@@ -93,7 +93,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 .cache(true)
                 .next("manager", getSupportFragmentManager())
                 .next("add", new DeviceFragment())
-                .same(new ContractFragment())
+                .same(new ContactFragment())
                 .same(new HelpFragment())
                 .next("container", R.id.fragment_root)
                 .next("show")

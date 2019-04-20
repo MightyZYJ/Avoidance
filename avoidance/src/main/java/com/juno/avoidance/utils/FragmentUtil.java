@@ -20,6 +20,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class FragmentUtil {
 
+
     /**
      * Created by Juno at 20:04, 2019/4/16.
      * FragmentChain description : 链式生成Fragment，用于ViewPager

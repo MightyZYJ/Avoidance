@@ -44,7 +44,7 @@
             android:maxLength="11"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
-            app:customRegexp="^\\d{11}$"
+            app:customRegexp="@string/regex"
             app:emptyErrorString="请输入手机号码"
             app:testErrorString="请输入11位手机号码"
             app:testType="regexp" />

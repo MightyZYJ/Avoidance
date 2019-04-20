@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class Contract {
+public class Contact {
 
     private int id;
     private String name;
