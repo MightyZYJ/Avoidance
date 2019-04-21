@@ -25,9 +25,11 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+
 import butterknife.BindArray;
 import butterknife.BindColor;
 import butterknife.BindView;
+
 import static com.juno.avoidance.utils.ObjectUtil.*;
 import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
@@ -89,9 +91,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 .next("setText", tabs[0])
                 .next("setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
                 .another(fragmentChain) //设置Fragment
-                .lazy(FragmentUtil.FragmentChain::new)
+                .lazy(() -> new FragmentUtil.FragmentChain(getSupportFragmentManager()))
                 .cache(true)
-                .next("manager", getSupportFragmentManager())
                 .next("add", new DeviceFragment())
                 .same(new ContactFragment())
                 .same(new HelpFragment())

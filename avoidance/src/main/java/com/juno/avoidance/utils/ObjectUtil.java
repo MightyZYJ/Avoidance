@@ -416,41 +416,37 @@ public class ObjectUtil {
      * Created by Juno at 20:18, 2019/4/16.
      * ExecuteNonNull description : 判断对象为空或非空，使用接口的方式传入相应的方法并执行
      */
-    public static class ExecuteNonNull {
+    public static class Breakfast<T> {
 
-        public interface Action<T> {
-            void action(T o);
+        public interface Cooker<E> {
+            void cook(E exclusive);
         }
 
-        private Action whenNull = null;
-        private Action whenNonNull = null;
+        private Cooker<T> whenNull = null;
+        private Cooker<T> whenNotNull = null;
 
-        private WeakReference<?> objectWeakReference;
+        private WeakReference<T> reference;
 
-        public static ExecuteNonNull start(Object o) {
-            return new ExecuteNonNull(o);
+        public Breakfast(T object) {
+            this.reference = new WeakReference<>(object);
         }
 
-        private ExecuteNonNull(Object o) {
-            this.objectWeakReference = new WeakReference<>(o);
-        }
-
-        public <T> ExecuteNonNull whenNull(Action<T> whenNull) {
-            this.whenNull = whenNull;
+        public Breakfast<T> whenNull(Cooker<T> cooker) {
+            this.whenNull = cooker;
             return this;
         }
 
-        public <T> ExecuteNonNull whenNonNull(Action<T> whenNonNull) {
-            this.whenNonNull = whenNonNull;
+        public Breakfast<T> whenNotNull(Cooker<T> cooker) {
+            this.whenNotNull = cooker;
             return this;
         }
 
-        public <T> void execute() {
-            Object o = objectWeakReference.get();
-            if (checkNotNull(o) && checkNotNull(whenNonNull)) {
-                whenNonNull.action(o);
-            } else if (!checkNotNull(o) && checkNotNull(whenNull)) {
-                whenNull.action(null);
+        public void eat() {
+            T breakfast = reference.get();
+            if (notNull(breakfast) && notNull(whenNotNull)) {
+                whenNotNull.cook(breakfast);
+            } else if (isNull(breakfast) && notNull(whenNull)) {
+                whenNull.cook(null);
             }
         }
 

@@ -82,6 +82,9 @@ public class ChainUtil {
             if (celebration != null) {
                 celebration.celebrate();
             }
+            celebration = null;
+            situations = null;
+            solutions = null;
         }
 
     }

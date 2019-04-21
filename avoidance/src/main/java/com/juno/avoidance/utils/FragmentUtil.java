@@ -35,6 +35,14 @@ public class FragmentUtil {
         private int containerId = 0;
 
         /**
+         * Created by Juno at 10:30, 2019/4/21.
+         * FragmentChain description : 构造方法传入FragmentManager
+         */
+        public FragmentChain(FragmentManager fragmentManager) {
+            this.fragmentManager = fragmentManager;
+        }
+
+        /**
          * Created by Juno at 18:47, 2019/4/17.
          * add description : 添加fragment
          */
@@ -45,11 +53,10 @@ public class FragmentUtil {
 
         /**
          * Created by Juno at 19:20, 2019/4/17.
-         * show description : 显示某一页
+         * show description : 显示某一页，非viewpager下使用
          */
         public FragmentChain show(int index) {
             if (index >= 0 && index < fragments.size()) {
-
                 if (!list.contains(index)) {
                     fragmentManager.beginTransaction().add(containerId, fragments.get(index)).commit();
                     list.add(index);
@@ -64,14 +71,13 @@ public class FragmentUtil {
                     }
                     f.show(fragments.get(index)).commit();
                 }
-
             }
             return this;
         }
 
         /**
          * Created by Juno at 19:02, 2019/4/17.
-         * show description : 把第一个Fragment展示在container上
+         * show description : 把第一个Fragment展示在container上，非viewpager下使用
          */
         public FragmentChain show() {
             if (fragments.size() > 0) {
@@ -83,7 +89,7 @@ public class FragmentUtil {
 
         /**
          * Created by Juno at 19:18, 2019/4/17.
-         * container description : 设置container
+         * container description : 设置container，非viewpager下使用
          */
         public FragmentChain container(@IdRes int id) {
             containerId = id;
@@ -97,15 +103,6 @@ public class FragmentUtil {
         public FragmentChain attach(ViewPager viewpager) {
             FragmentAdapter adapter = new FragmentAdapter(fragmentManager, fragments);
             viewpager.setAdapter(adapter);
-            return this;
-        }
-
-        /**
-         * Created by Juno at 19:18, 2019/4/17.
-         * manager description : 设置manager
-         */
-        public FragmentChain manager(FragmentManager fragmentManager) {
-            this.fragmentManager = fragmentManager;
             return this;
         }
 
