@@ -12,24 +12,26 @@ import android.widget.TextView;
 
 import com.andreabaccega.widget.FormEditText;
 import com.github.florent37.materialtextfield.MaterialTextField;
+
+import mehdi.sakout.fancybuttons.FancyButton;
+
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
+
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import static com.jess.arms.utils.Preconditions.checkNotNull;
+
+import com.juno.avoidance.R;
 import com.juno.avoidance.di.component.DaggerLoginComponent;
 import com.juno.avoidance.mvp.contract.LoginContract;
 import com.juno.avoidance.mvp.presenter.LoginPresenter;
-
-import com.juno.avoidance.R;
-
-import static com.juno.avoidance.utils.ObjectUtil.*;
-import static com.juno.avoidance.utils.ObjectUtil.Again.*;
-import static com.juno.avoidance.utils.ViewUtil.animate;
-
 import com.juno.avoidance.socket.SocketService;
 import com.juno.avoidance.utils.QMUIUtil;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
+import static com.juno.avoidance.utils.ViewUtil.animate;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
 
 import java.lang.ref.WeakReference;
 
@@ -37,8 +39,6 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
-import mehdi.sakout.fancybuttons.FancyButton;
-
 
 /**
  * ================================================
@@ -95,10 +95,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @OnClick(R.id.btn_verify)
     public void verify(Button v) {
         from(valid(phoneFet.testValidity(), true))
-                .store()
+                .send()
                 .another(mPresenter)
                 .when("request", phoneFet.getText().toString())
-                .when("countDown", 60, new WeakReference<>(v));
+                .when("countDown", 60, new WeakReference<>(v))
+                .clean();
     }
 
     /**
@@ -107,11 +108,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
      */
     @OnClick(R.id.btn_login)
     public void login(View v) {
-        at(() -> animate(v)) //点击动画
-                .another(valid(phoneFet.testValidity(), verifyFet.testValidity())) //验证手机号码、验证码格式
-                .store()
+        //点击动画
+        at(() -> animate(v))
+                //验证手机号码、验证码格式
+                .another(valid(phoneFet.testValidity(), verifyFet.testValidity()))
+                .send()
                 .another(mPresenter)
-                .when("check", phoneFet.getText().toString(), verifyFet.getText().toString()); //格式正确则请求登陆
+                //格式正确则请求登陆
+                .when("check", phoneFet.getText().toString(), verifyFet.getText().toString())
+                .clean();
     }
 
     /**
@@ -176,7 +181,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoading() {
-        mDialog = Again.from(mDialog)
+        mDialog = from(mDialog)
                 .lazy(() -> QMUIUtil.TipDialog.load(this, "正在加载..."))
                 .next("show")
                 .get();

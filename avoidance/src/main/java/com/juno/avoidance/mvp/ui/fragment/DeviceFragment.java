@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindArray;
 import butterknife.BindView;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
 
 /**
  * Created by Juno.
@@ -65,23 +65,27 @@ public class DeviceFragment extends BindFragment<HomePresenter> implements Multi
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
-        from(new ArrayList<MultiChoicesCircleButton.Item>()).cache(true) //设置3d选择器
+        //设置3d选择器
+        from(new ArrayList<MultiChoicesCircleButton.Item>())
+                .cache(true)
                 .next("add", new MultiChoicesCircleButton.Item(devices[0], getResources().getDrawable(R.drawable.icon_help), 30))
                 .same(new MultiChoicesCircleButton.Item(devices[1], getResources().getDrawable(R.drawable.icon_gps), 90))
                 .same(new MultiChoicesCircleButton.Item(devices[2], getResources().getDrawable(R.drawable.icon_brand), 150))
-                .store()
+                .send()
                 .another(addMccb)
                 .receive("setButtonItems")
                 .next("setOnSelectedItemListener", (MultiChoicesCircleButton.OnSelectedItemListener) this)
-                .another(list) //设置设备列表
+                //设置设备列表
+                .another(list)
                 .lazy(DeviceFactory::create)
-                .get((Getter<List<Device>>) o -> list = o)
+                .get(o -> list = o)
                 .another(new DeviceAdapter(getContext(), list))
                 .next("setOnItemClickListener", new DeviceAdapter.Listener(getContext(), list))
-                .store()
+                .send()
                 .another(devicesRv)
                 .next("setLayoutManager", new LinearLayoutManager(getContext()))
-                .receive("setAdapter");
+                .receive("setAdapter")
+                .clean();
     }
 
     /**

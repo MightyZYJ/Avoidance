@@ -8,7 +8,7 @@ import java.util.List;
  * Date : 2019/4/16.
  * Time : 20:09.
  * When I met you in the summer.
- * Description : 0第三发依赖的流水线调用工具，处理频繁的if else
+ * Description : 零第三方依赖的流水线调用工具，处理频繁的if else
  */
 public class ChainUtil {
 
@@ -25,7 +25,7 @@ public class ChainUtil {
         private List<Situation> situations = new ArrayList<>();
         private List<Solution> solutions = new ArrayList<>();
 
-        private Celebration celebration;
+        private Celebration celebration = null;
         private boolean stop;
         private boolean needStop = false;
 

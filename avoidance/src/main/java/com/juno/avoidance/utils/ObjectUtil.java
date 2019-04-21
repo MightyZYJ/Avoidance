@@ -431,6 +431,10 @@ public class ObjectUtil {
             this.reference = new WeakReference<>(object);
         }
 
+        public static <E> Breakfast<E> start(E object) {
+            return new Breakfast<>(object);
+        }
+
         public Breakfast<T> whenNull(Cooker<T> cooker) {
             this.whenNull = cooker;
             return this;
@@ -456,5 +460,237 @@ public class ObjectUtil {
         }
 
     }
+
+
+    /**
+     * Created by Juno at 11:38, 2019/4/21.
+     * Again2 description : 强化泛型
+     */
+    public static class Again2<T> { //TODO Mark here
+
+        private WeakReference<T> weakReference;
+        private Method[] methods = null;
+        private Method lastMethod = null;
+
+        /**
+         * Created by Juno at 16:07, 2019/4/17.
+         * ref description : 设置引用
+         */
+        private Again2<T> ref(WeakReference<T> reference) {
+            this.weakReference = reference;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 21:35, 2019/4/17.
+         * cache description : 缓存自身的引用对象，用于when和receive
+         */
+        private static WeakReference<Object[]> sCache;
+
+        public Again2<T> send() {
+            Object[] objects = new Object[1];
+            objects[0] = weakReference.get();
+            sCache = new WeakReference<>(objects);
+            return this;
+        }
+
+        /**
+         * Created by Juno at 21:35, 2019/4/17.
+         * cache description : 缓存外部对象，用于when和receive
+         */
+        public Again2<T> args(Object... o) {
+            sCache = new WeakReference<>(o);
+            return this;
+        }
+
+        /**
+         * Created by Juno at 21:37, 2019/4/17.
+         * receive description : 使用give保存的临时变量来入参，执行后不会清空缓存
+         */
+        public Again2<T> receive(String method) {
+            if (notNull(sCache) && notNull(sCache.get())) {
+                next(method, sCache.get());
+            }
+            return this;
+        }
+
+        /**
+         * Created by Juno at 14:08, 2019/4/18.
+         * when description : 若缓存的是boolean类型，则执行方法，执行后不会清空缓存
+         */
+        public Again2<T> when(String method, Object... args) {
+            if (notNull(sCache) && notNull(sCache.get()) && notNull(sCache.get()[0]) && sCache.get()[0] instanceof Boolean && ((Boolean) sCache.get()[0])) {
+                next(method, args);
+            }
+            return this;
+        }
+
+        /**
+         * Created by Juno at 14:13, 2019/4/18.
+         * done description : 清空缓存
+         */
+        public Again2<T> clean() {
+            lastMethod = null;
+            methods = null;
+            sCache = null;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 19:55, 2019/4/17.
+         * Action description : at开始调用链，still用于延续
+         */
+        public interface Action {
+            void action();
+        }
+
+        public static Again2<String> at(Action action) {
+            return new Again2<String>().ref(new WeakReference<>("调用at()中")).still(action);
+        }
+
+        public Again2<T> still(Action action) {
+            action.action();
+            return this;
+        }
+
+        /**
+         * Created by Juno at 14:09, 2019/4/17.
+         * from description : 传入对象初始化并执行方法
+         */
+        public static <E> Again2<E> from(E o, String methodName, Object... args) {
+            return new Again2<E>().ref(new WeakReference<>(o)).next(methodName, args);
+        }
+
+        /**
+         * Created by Juno at 14:09, 2019/4/17.
+         * from description : 仅初始化
+         */
+        public static <E> Again2<E> from(E o) {
+            return new Again2<E>().ref(new WeakReference<>(o));
+        }
+
+        public interface Lazier<Type> {
+            Type lazy();
+        }
+
+        /**
+         * Created by Juno at 14:09, 2019/4/17.
+         * is description : 对象为空时赋值
+         */
+        public Again2<T> lazy(Lazier<T> lazier) {
+            T o = weakReference.get();
+            if (isNull(o)) {
+                o = lazier.lazy();
+                ref(new WeakReference<>(o));
+            }
+            return this;
+        }
+
+
+        /**
+         * Created by Juno at 11:16, 2019/4/17.
+         * another description : 开启另一个调用调用链
+         */
+        public <E> Again2<E> another(E o) {
+            Timber.e("ObjectUtil --> %s 调用%s",
+                    isNull(weakReference) ? isNull(o) ? "null"
+                            : o.getClass().getCanonicalName()
+                            : isNull(weakReference.get()) ? "wrf get Null"
+                            : weakReference.get().getClass().getSimpleName()
+                    , isNull(weakReference) ? "开始" : "完毕");
+            return from(o);
+        }
+
+        public <E> Again2<E> another(E o, String method, Object... args) {
+            return another(o).next(method, args);
+        }
+
+        /**
+         * Created by Juno at 15:53, 2019/4/18.
+         * Mapper description : 用于转换
+         */
+        public interface Mapper<Source, Target> {
+            Target convert(Source source);
+        }
+
+        public <Source, Target> Again2<Target> map(Mapper<? super T, ? extends Target> mapper) {
+            T o = weakReference.get();
+            if (notNull(o) && notNull(mapper)) {
+                Target t = mapper.convert(o);
+                return new Again2<Target>().ref(new WeakReference<>(t));
+            }
+            return new Again2<Target>().ref(new WeakReference<>(null));
+        }
+
+        /**
+         * Created by Juno at 11:20, 2019/4/17.
+         * get description : 以下两种方式返回对象
+         */
+        public T get() {
+            return weakReference.get();
+        }
+
+        public interface Getter<Type> {
+            void get(Type o);
+        }
+
+        public Again2<T> get(Getter<T> getter) {
+            getter.get(weakReference.get());
+            return this;
+        }
+
+        /**
+         * Created by Juno at 9:55, 2019/4/17.
+         * same description : 执行上一次执行的方法
+         */
+        public Again2<T> same(Object... args) {
+            T o = weakReference.get();
+            if (notNull(lastMethod) && notNull(o)) {
+                try {
+                    lastMethod.invoke(o, args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return this;
+        }
+
+        /**
+         * Created by Juno at 9:13, 2019/4/17.
+         * cache description : 开启方法缓存，参数：是否为定义方法
+         */
+        public Again2<T> cache(boolean declared) {
+            T o = weakReference.get();
+            if (notNull(o)) {
+                methods = declared ? o.getClass().getDeclaredMethods() : o.getClass().getMethods();
+            }
+            return this;
+        }
+
+        /**
+         * Created by Juno at 9:11, 2019/4/17.
+         * next description : 查看是否有缓存方法，有缓存就读取出来，没有就调用{@link #single(Object, String, Object...)}
+         */
+        public Again2<T> next(String methodName, Object... args) {
+            T o = weakReference.get();
+            if (notNull(methods)) {
+                Method method = findMethod(methods, methodName, args);
+                if (notNull(method)) {
+                    try {
+                        method.invoke(o, args);
+                        lastMethod = method;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                Method method = findMethod(o, methodName, false, args);
+                lastMethod = method;
+                single(o, method, args);
+            }
+            return this;
+        }
+    }
+
 
 }

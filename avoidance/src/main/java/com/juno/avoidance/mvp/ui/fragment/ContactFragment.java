@@ -8,11 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Toast;
 
 import com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.model.entity.Contact;
 import com.juno.avoidance.mvp.model.entity.msg.MsgContact;
@@ -20,10 +20,10 @@ import com.juno.avoidance.mvp.presenter.ContactPresenter;
 import com.juno.avoidance.mvp.ui.adapter.ContactAdapter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
 import com.juno.avoidance.utils.ChainUtil;
-import com.juno.avoidance.utils.ObjectUtil;
 import com.juno.avoidance.utils.QMUIUtil;
+
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog.*;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 
@@ -37,7 +37,8 @@ import butterknife.BindString;
 import butterknife.BindView;
 import timber.log.Timber;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again.from;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.QMUIUtil.Dialog.*;
 
 /**
  * Created by Juno.
@@ -79,17 +80,22 @@ public class ContactFragment extends BindFragment implements MultiChoicesCircleB
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+
+        //设置RecyclerView
         from(contactRv, "setLayoutManager", new LinearLayoutManager(getContext()))
+                //设置Presenter并且调用show()
                 .another(presenter)
                 .lazy(() -> new ContactPresenter(this))
                 .next("show")
-                .get((ObjectUtil.Again.Getter<ContactPresenter>) o -> presenter = o)
+                .get(o -> presenter = o)
+                //设置3D多选按钮
                 .another(new ArrayList<MultiChoicesCircleButton.Item>())
                 .next("add", new MultiChoicesCircleButton.Item("添加联系人", help, 90))
-                .store()
+                .send()
                 .another(addMccb)
                 .receive("setButtonItems")
-                .next("setOnSelectedItemListener", this);
+                .next("setOnSelectedItemListener", this)
+                .clean();
     }
 
     /**
@@ -98,31 +104,14 @@ public class ContactFragment extends BindFragment implements MultiChoicesCircleB
      */
     @Override
     public void onSelected(MultiChoicesCircleButton.Item item, int position) {
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
-        builder.setTitle("修改联系人")
-                .setPlaceholder("在此输入手机号加昵称")
-                .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", (dialog, index) -> dialog.dismiss())
-                .addAction("确定", (dialog, index) -> {
-
-                    final String text = builder.getEditText().getText().toString();
-
-                    ChainUtil.begin().stopWhen(true)
-                            .when(() -> text.length() < 11)
-                            .react(() -> showAndLog("输入过短"))
-
-                            .when(() -> text.length() > 20)
-                            .react(() -> showAndLog("输入过长"))
-
-                            .when(() -> !text.substring(0, 11).matches(regex))
-                            .react(() -> showAndLog("请检查手机号码"))
-
-                            .doWhenSuccess(() -> {
-                                presenter.add(text.substring(11), text.substring(0, 11));
-                                dialog.dismiss();
-                            }).flow();
-
-                }).create().show();
+        QMUIDialog.EditTextDialogBuilder builder = editCommit(getContext(), "修改联系人", "在此输入手机号加昵称", InputType.TYPE_CLASS_TEXT);
+        builder.addAction("确定", (dialog, index) -> {
+            String text = builder.getEditText().getText().toString();
+            new StringChain(text).begin(() -> {
+                presenter.add(text.substring(11), text.substring(0, 11));
+                dialog.dismiss();
+            });
+        }).create().show();
     }
 
     @Override
@@ -164,50 +153,25 @@ public class ContactFragment extends BindFragment implements MultiChoicesCircleB
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 Contact contact = contacts.get(position);
-                final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getActivity());
-                builder.setTitle("修改联系人")
-                        .setPlaceholder("在此输入手机号加昵称")
-                        .setInputType(InputType.TYPE_CLASS_TEXT)
-                        .setDefaultText(contact.getPhone() + contact.getName())
-                        .addAction("取消", (dialog, index) -> dialog.dismiss())
-                        .addAction("确定", (dialog, index) -> {
-
-                            final String text = builder.getEditText().getText().toString();
-
-                            ChainUtil.begin().stopWhen(true)
-                                    .when(() -> text.length() < 11)
-                                    .react(() -> showAndLog("输入过短"))
-
-                                    .when(() -> text.length() > 20)
-                                    .react(() -> showAndLog("输入过长"))
-
-                                    .when(() -> !text.substring(0, 11).matches(regex))
-                                    .react(() -> showAndLog("请检查手机号码"))
-
-                                    .doWhenSuccess(() -> {
-                                        contact.setName(text.substring(11));
-                                        contact.setPhone(text.substring(0, 11));
-                                        presenter.update(contact);
-                                        dialog.dismiss();
-                                    }).flow();
-
-                        }).create().show();
-
+                EditTextDialogBuilder builder = editCommit(getContext(), "修改联系人", "在此输入手机号加昵称", InputType.TYPE_CLASS_TEXT).setDefaultText(contact.getPhone() + contact.getName());
+                builder.addAction("确定", (dialog, index) -> {
+                    String text = builder.getEditText().getText().toString();
+                    new StringChain(text).begin(() -> {
+                        contact.setName(text.substring(11));
+                        contact.setPhone(text.substring(0, 11));
+                        presenter.update(contact);
+                        dialog.dismiss();
+                    });
+                }).create().show();
             }
 
             @Override
             public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+                cancelCommit(getContext(), "标题", "确定要删除吗？", (QMUIUtil.Dialog.CommitAction) () -> {
+                    presenter.delete(contacts.get(position).getId());
+                    dialog.dismiss();
+                }).show();
 
-                int id = contacts.get(position).getId();
-
-                new QMUIDialog.MessageDialogBuilder(getActivity())
-                        .setTitle("标题")
-                        .setMessage("确定要删除吗？")
-                        .addAction("取消", (dialog, index) -> dialog.dismiss())
-                        .addAction(0, "删除", QMUIDialogAction.ACTION_PROP_NEGATIVE, (dialog, index) -> {
-                            presenter.delete(id);
-                            dialog.dismiss();
-                        }).show();
                 return false;
             }
         });
@@ -217,6 +181,30 @@ public class ContactFragment extends BindFragment implements MultiChoicesCircleB
     private void showAndLog(String s) {
         ArmsUtils.snackbarText(s);
         Timber.e(s);
+    }
+
+    /**
+     * Created by Juno at 16:37, 2019/4/21.
+     * StringChain description : 处理字符串
+     */
+    private class StringChain extends ChainUtil.EventStream {
+        private String text;
+
+        private StringChain(String text) {
+            this.text = text;
+        }
+
+        private void begin(Celebration celebration) {
+            stopWhen(true)
+                    .when(() -> text.length() < 11)
+                    .react(() -> showAndLog("输入过短"))
+                    .when(() -> text.length() > 20)
+                    .react(() -> showAndLog("输入过长"))
+                    .when(() -> !text.substring(0, 11).matches(regex))
+                    .react(() -> showAndLog("请检查手机号码"))
+                    .doWhenSuccess(celebration)
+                    .flow();
+        }
     }
 
     @Override

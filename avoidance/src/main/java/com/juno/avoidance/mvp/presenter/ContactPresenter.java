@@ -1,4 +1,5 @@
 package com.juno.avoidance.mvp.presenter;
+
 import com.jess.arms.utils.ArmsUtils;
 import com.juno.avoidance.mvp.model.api.service.ContactService;
 import com.juno.avoidance.mvp.model.entity.Contact;
@@ -9,11 +10,14 @@ import com.juno.avoidance.mvp.ui.fragment.ContactFragment;
 import com.juno.avoidance.utils.RxUtil;
 
 import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 import java.util.Objects;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
 import static com.juno.avoidance.utils.ObjectUtil.notNull;
 
 /**

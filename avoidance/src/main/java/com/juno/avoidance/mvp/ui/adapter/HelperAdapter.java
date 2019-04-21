@@ -12,7 +12,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
 
 /**
  * Created by Juno.
@@ -29,15 +29,21 @@ public class HelperAdapter extends CommonAdapter<Helper> implements SwitchButton
 
     @Override
     protected void convert(ViewHolder holder, Helper helper, int position) {
-        from(holder).cache(true)
+        from(holder)
+                .cache(true)
+                //救援项目名称
                 .next("setText", R.id.tv_help_name, helper.getName())
+                //未启用的可见度
                 .next("setVisible", R.id.tv_help_active, !helper.isUsable())
+                //SwitchButton的可见度
                 .next("setVisible", R.id.sb_help, helper.isUsable())
                 .args(helper.isUsing())
+                //SwitchButton的checked
                 .when("setChecked", R.id.sb_help, helper.isUsing())
                 .map((Mapper<ViewHolder, SwitchButton>) viewHolder -> holder.getView(R.id.sb_help))
-                .clean()
-                .next("setOnCheckedChangeListener", this);
+                //SwitchButton的监听
+                .next("setOnCheckedChangeListener", this)
+                .clean();
     }
 
     @Override

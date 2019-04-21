@@ -1,7 +1,6 @@
 package com.juno.avoidance.mvp.presenter;
 
 import android.app.Application;
-import android.app.IntentService;
 import android.widget.Button;
 
 import com.jess.arms.integration.AppManager;
@@ -19,11 +18,9 @@ import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 
 import javax.inject.Inject;
 
-import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.RxLifecycleUtils;
 import com.juno.avoidance.mvp.contract.LoginContract;
 import com.juno.avoidance.mvp.model.entity.http.Response;
-import com.juno.avoidance.mvp.ui.activity.HomeActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;

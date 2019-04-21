@@ -31,7 +31,7 @@ import butterknife.BindColor;
 import butterknife.BindView;
 
 import static com.juno.avoidance.utils.ObjectUtil.*;
-import static com.juno.avoidance.utils.ObjectUtil.Again.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
 
 
 /**
@@ -80,17 +80,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        at(() -> QMUIStatusBarHelper.translucent(HomeActivity.this)) //沉浸式
-                .another(homeBnv) //设置底部导航栏
+        //沉浸式
+        at(() -> QMUIStatusBarHelper.translucent(HomeActivity.this))
+                //设置底部导航栏
+                .another(homeBnv)
                 .cache(true)
                 .next("addTab", new BottomNavigationItem(tabs[0], blue, R.drawable.icon_hardware_fill))
                 .same(new BottomNavigationItem(tabs[1], blue, R.drawable.icon_group))
                 .same(new BottomNavigationItem(tabs[2], blue, R.drawable.icon_help))
                 .next("setOnBottomNavigationItemClickListener", (OnBottomNavigationItemClickListener) this::page)
-                .another(titleTv) //设置标题
+                //设置标题
+                .another(titleTv)
                 .next("setText", tabs[0])
                 .next("setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
-                .another(fragmentChain) //设置Fragment
+                //设置Fragment
+                .another(fragmentChain)
                 .lazy(() -> new FragmentUtil.FragmentChain(getSupportFragmentManager()))
                 .cache(true)
                 .next("add", new DeviceFragment())
@@ -98,7 +102,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 .same(new HelpFragment())
                 .next("container", R.id.fragment_root)
                 .next("show")
-                .get((Getter<FragmentUtil.FragmentChain>) o -> fragmentChain = o);
+                .get(o -> fragmentChain = o)
+                .clean();
     }
 
     private QMUITipDialog mDialog = null;

@@ -21,7 +21,6 @@ import com.juno.avoidance.mvp.model.entity.msg.MsgTitle;
 import com.juno.avoidance.mvp.presenter.CustomizePresenter;
 
 import com.juno.avoidance.R;
-import com.juno.avoidance.utils.ObjectUtil;
 import com.juno.avoidance.utils.QMUIUtil;
 import com.juno.avoidance.utils.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
@@ -32,7 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-import static com.juno.avoidance.utils.ObjectUtil.Again.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
 
 
 /**
@@ -105,8 +104,8 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
         at(() -> QMUIStatusBarHelper.translucent(this))
                 .still(() -> Slidr.attach(this, SlidrUtil.config(this)))
                 .another(getIntent().getSerializableExtra(MsgTitle.M))
-                .map((Mapper<MsgTitle, String>) msgTitle -> msgTitle.title)
-                .store()
+                .map(serializable -> ((MsgTitle) serializable).title)
+                .send()
                 .another(backIv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
                 .another(titleTv, "setTranslationY", QMUIStatusBarHelper.getStatusbarHeight(this) / 3f)
                 .receive("setText")
@@ -114,7 +113,8 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
                 .receive("setText")
                 .another(deviceNameTv, "setText", Html.fromHtml(text[0]))
                 .another(functionTv, "setText", Html.fromHtml(text[1]))
-                .another(agreeCb, "setText", Html.fromHtml(text[2]));
+                .another(agreeCb, "setText", Html.fromHtml(text[2]))
+                .clean();
     }
 
     /**
@@ -125,7 +125,7 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
 
     @Override
     public void showLoading() {
-        mDialog = ObjectUtil.Again.from(mDialog)
+        mDialog = from(mDialog)
                 .lazy(() -> QMUIUtil.TipDialog.load(this, "正在加载..."))
                 .next("show")
                 .get();

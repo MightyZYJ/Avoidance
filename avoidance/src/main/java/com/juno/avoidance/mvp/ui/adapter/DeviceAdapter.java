@@ -21,7 +21,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again.at;
+import static com.juno.avoidance.utils.ObjectUtil.Again2.at;
 import static com.juno.avoidance.utils.ObjectUtil.notNull;
 import static com.juno.avoidance.utils.ViewUtil.animate;
 
