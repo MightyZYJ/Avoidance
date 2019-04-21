@@ -441,13 +441,18 @@ public class ObjectUtil {
             return this;
         }
 
-        public void eat() {
+        public Breakfast eat() {
             T breakfast = reference.get();
             if (notNull(breakfast) && notNull(whenNotNull)) {
                 whenNotNull.cook(breakfast);
             } else if (isNull(breakfast) && notNull(whenNull)) {
                 whenNull.cook(null);
             }
+            return this;
+        }
+
+        public Again again() {
+            return new Again().another(reference.get());
         }
 
     }

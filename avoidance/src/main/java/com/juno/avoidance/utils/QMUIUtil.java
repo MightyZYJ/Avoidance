@@ -3,6 +3,8 @@ package com.juno.avoidance.utils;
 import android.content.Context;
 import android.support.annotation.IntRange;
 
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import static com.qmuiteam.qmui.widget.dialog.QMUITipDialog.Builder.ICON_TYPE_FAIL;
@@ -54,5 +56,32 @@ public class QMUIUtil {
         }
     }
 
+    public static class Dialog {
+
+        public interface CommitAction {
+            void action();
+        }
+
+        /**
+         * Created by Juno at 11:47, 2019/4/21.
+         * singleCommit description : 产生一个只有确定的dialog
+         */
+        public static QMUIDialog singleCommit(Context context, String title, String message, boolean cancelable, CommitAction... actions) {
+            return new QMUIDialog.MessageDialogBuilder(context)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setCancelable(cancelable)
+                    .setCanceledOnTouchOutside(cancelable)
+                    .addAction("确定", ((dialog, index) -> {
+                        dialog.dismiss();
+                        for (CommitAction action : actions) {
+                            action.action();
+                        }
+                    }))
+                    .create();
+        }
+
+
+    }
 
 }
