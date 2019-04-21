@@ -37,7 +37,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import timber.log.Timber;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 import static com.juno.avoidance.utils.QMUIUtil.Dialog.*;
 
 /**

@@ -26,7 +26,7 @@ public class QMUIUtil {
 
     /**
      * Created by Juno at 21:46, 2019/4/16.
-     * load description : 产生一个QMUITipDialog，包含加载、失败、成功等状态
+     * TipDialog description : 产生一个QMUITipDialog，包含加载、失败、成功等状态
      */
     public static class TipDialog {
 

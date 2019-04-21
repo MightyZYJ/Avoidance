@@ -31,7 +31,7 @@ import com.juno.avoidance.socket.SocketService;
 import com.juno.avoidance.utils.QMUIUtil;
 
 import static com.juno.avoidance.utils.ViewUtil.animate;
-import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
 import java.lang.ref.WeakReference;
 

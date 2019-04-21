@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindArray;
 import butterknife.BindView;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
 /**
  * Created by Juno.

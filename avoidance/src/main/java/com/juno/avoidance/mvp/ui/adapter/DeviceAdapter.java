@@ -12,7 +12,6 @@ import com.jess.arms.utils.ArmsUtils;
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.model.entity.Device;
 import com.juno.avoidance.mvp.ui.activity.MapActivity;
-import com.juno.avoidance.utils.ObjectUtil;
 import com.juno.avoidance.utils.QMUIUtil;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
@@ -21,7 +20,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again2.at;
+import static com.juno.avoidance.utils.ObjectUtil.Again.at;
 import static com.juno.avoidance.utils.ObjectUtil.notNull;
 import static com.juno.avoidance.utils.ViewUtil.animate;
 

@@ -31,7 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
 
 /**

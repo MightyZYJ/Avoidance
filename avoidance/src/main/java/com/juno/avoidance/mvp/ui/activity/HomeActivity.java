@@ -31,7 +31,7 @@ import butterknife.BindColor;
 import butterknife.BindView;
 
 import static com.juno.avoidance.utils.ObjectUtil.*;
-import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
 
 /**
@@ -119,7 +119,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void showLoading() {
-        mDialog = Again.from(mDialog)
+        mDialog = from(mDialog)
                 .lazy(() -> QMUIUtil.TipDialog.load(this, "正在加载..."))
                 .next("show")
                 .get();

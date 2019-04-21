@@ -11,7 +11,6 @@ import com.amap.api.maps2d.model.CameraPosition;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.juno.avoidance.R;
-import com.juno.avoidance.utils.ObjectUtil.Again.*;
 import com.juno.avoidance.utils.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.r0adkll.slidr.Slidr;
@@ -43,7 +42,8 @@ public class MapActivity extends AppCompatActivity {
                 .still(() -> QMUIStatusBarHelper.setStatusBarLightMode(this))
                 .still(() -> mapView.onCreate(savedInstanceState))
                 .another(mapView.getMap(), "animateCamera", CameraUpdateFactory.newCameraPosition(new CameraPosition(HERE, 12, 0, 0)))
-                .next("addMarker", new MarkerOptions().position(HERE).icon(MARKER));
+                .next("addMarker", new MarkerOptions().position(HERE).icon(MARKER))
+                .clean();
 
     }
 

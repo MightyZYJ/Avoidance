@@ -2,6 +2,8 @@ package com.juno.avoidance.utils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -12,8 +14,10 @@ import timber.log.Timber;
  * When I met you in the summer.
  * Description : 作用在一般对象上的方法
  */
-@SuppressWarnings("unused")
-public class ObjectUtil {
+@SuppressWarnings({"unused", "WeakerAccess"})
+public final class ObjectUtil {
+
+    public static final String OBJECT_UTIL = "@ObjectUtil";
 
     /**
      * Created by Juno at 20:14, 2019/4/16.
@@ -71,7 +75,7 @@ public class ObjectUtil {
                 Method method = findMethod(o, methodName, true, args);
                 return notNull(method) ? (T) method.invoke(o, args) : null;
             } catch (Exception e) {
-                e.printStackTrace();
+                printf(OBJECT_UTIL + "*79 " + e.getMessage());
             }
         }
         return null;
@@ -82,6 +86,7 @@ public class ObjectUtil {
         try {
             return notNull(o) && notNull(method) ? (T) method.invoke(o, args) : null;
         } catch (Exception e) {
+            printf(OBJECT_UTIL + "*90 " + e.getMessage());
             return null;
         }
     }
@@ -90,7 +95,6 @@ public class ObjectUtil {
      * Created by Juno at 21:06, 2019/4/16.
      * single description : 若对象不为空则执行某方法，返回原对象
      */
-    @SuppressWarnings("unchecked")
     public static <T> T refund(T o, String methodName, Object... args) {
         if (checkNotNull(o)) {
             try {
@@ -99,7 +103,7 @@ public class ObjectUtil {
                     method.invoke(o, args);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                printf(OBJECT_UTIL + "*107 " + e.getMessage());
             }
         }
         return o;
@@ -128,7 +132,7 @@ public class ObjectUtil {
             method.setAccessible(true);
             return method;
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            printf(OBJECT_UTIL + "*136 " + "#findMethod(Object,String,boolean,Object[]) failed.");
             Method[] methods = declared ? clazz.getDeclaredMethods() : clazz.getMethods();
             return findMethod(methods, name, args);
         }
@@ -164,7 +168,7 @@ public class ObjectUtil {
                         Class<?> type = (Class<?>) args[i].getClass().getField("TYPE").get(null);//获取包装类型的基本类型
                         isPrimitive = type.isPrimitive() && type.equals(clazz[i]);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        printf(OBJECT_UTIL + "*172 #equals(Class[],Object[]) can't get field.");
                     }
                     if (!isPrimitive) { //若不是包装类型或包装类型对应的基本类型不等于clazz[i]，则最终判断两个对象完全不一致
                         return false;
@@ -177,296 +181,57 @@ public class ObjectUtil {
     }
 
     /**
-     * Created by Juno at 21:24, 2019/4/16.
-     * Again description : 以一种链式调用的方法来判空和执行方法
-     * {@link #from(Object, String, Object...)} --> cache --> next --> same --> ...
+     * Created by Juno at 18:16, 2019/4/21.
+     * printf description : 本类中所有打印的入口，方便切换打印方式
      */
-    public static class Again {
-
-        private WeakReference<?> weakReference;
-        private Method[] methods = null;
-        private Method lastMethod = null;
-
-        /**
-         * Created by Juno at 16:07, 2019/4/17.
-         * ref description : 设置引用
-         */
-        private Again ref(WeakReference<?> reference) {
-            this.weakReference = reference;
-            return this;
-        }
-
-        /**
-         * Created by Juno at 21:35, 2019/4/17.
-         * cache description : 缓存自身的引用对象，用于when和receive
-         */
-        private static WeakReference<Object[]> sCache;
-
-        public Again store() {
-            Object[] objects = new Object[1];
-            objects[0] = weakReference.get();
-            sCache = new WeakReference<>(objects);
-            return this;
-        }
-
-        /**
-         * Created by Juno at 21:35, 2019/4/17.
-         * cache description : 缓存外部对象，用于when和receive
-         */
-        public Again args(Object... o) {
-            sCache = new WeakReference<>(o);
-            return this;
-        }
-
-        /**
-         * Created by Juno at 21:37, 2019/4/17.
-         * receive description : 使用give保存的临时变量来入参，执行后不会清空缓存
-         */
-        public Again receive(String method) {
-            if (notNull(sCache) && notNull(sCache.get())) {
-                next(method, sCache.get());
-            }
-            return this;
-        }
-
-        /**
-         * Created by Juno at 14:08, 2019/4/18.
-         * when description : 若缓存的是boolean类型，则执行方法，执行后不会清空缓存
-         */
-        public Again when(String method, Object... args) {
-            if (notNull(sCache) && notNull(sCache.get()) && notNull(sCache.get()[0]) && sCache.get()[0] instanceof Boolean && ((Boolean) sCache.get()[0])) {
-                next(method, args);
-            }
-            return this;
-        }
-
-        /**
-         * Created by Juno at 14:13, 2019/4/18.
-         * done description : 清空缓存
-         */
-        public Again clean() {
-            lastMethod = null;
-            methods = null;
-            sCache = null;
-            return this;
-        }
-
-        /**
-         * Created by Juno at 19:55, 2019/4/17.
-         * Action description : at开始调用链，still用于延续
-         */
-        public interface Action {
-            void action();
-        }
-
-        public static Again at(Action action) {
-            return new Again().still(action);
-        }
-
-        public Again still(Action action) {
-            action.action();
-            return this;
-        }
-
-        /**
-         * Created by Juno at 14:09, 2019/4/17.
-         * from description : 传入对象初始化并执行方法
-         */
-        @SuppressWarnings("unchecked")
-        public static <T> Again from(T o, String methodName, Object... args) {
-            return new Again().ref(new WeakReference(o)).next(methodName, args);
-        }
-
-        /**
-         * Created by Juno at 14:09, 2019/4/17.
-         * from description : 仅初始化
-         */
-        public static <T> Again from(T o) {
-            return new Again().ref(new WeakReference<>(o));
-        }
-
-        public interface Lazier {
-            Object lazy();
-        }
-
-        /**
-         * Created by Juno at 14:09, 2019/4/17.
-         * is description : 对象为空时赋值
-         */
-        public Again lazy(Lazier lazier) {
-            Object o = weakReference.get();
-            if (isNull(o)) {
-                o = lazier.lazy();
-                ref(new WeakReference<>(o));
-            }
-            return this;
-        }
-
-        /**
-         * Created by Juno at 11:16, 2019/4/17.
-         * another description : 开启另一个调用调用链
-         */
-        public <T> Again another(T o) { //TODO just highlight it
-            Timber.e("ObjectUtil --> %s 调用%s",
-                    isNull(weakReference) ? isNull(o) ? "null"
-                            : o.getClass().getCanonicalName()
-                            : isNull(weakReference.get()) ? "wrf get Null"
-                            : weakReference.get().getClass().getSimpleName()
-                    , isNull(weakReference) ? "开始" : "完毕");
-            return from(o);
-        }
-
-        public <T> Again another(T o, String method, Object... args) { //TODO just highlight it
-            return another(o).next(method, args);
-        }
-
-        /**
-         * Created by Juno at 15:53, 2019/4/18.
-         * Mapper description : 用于转换，map后记得使用clean，否则如果开启了方法缓存将会造成新对象找不到方法
-         */
-        public interface Mapper<Source, Target> {
-            Target convert(Source source);
-        }
-
-        @SuppressWarnings("unchecked")
-        public <Source, Target> Again map(Mapper<Source, Target> mapper) {
-            Source o = (Source) weakReference.get();
-            if (notNull(o)) {
-                Target t = mapper.convert(o);
-                weakReference = new WeakReference<>(t);
-            }
-            return this;
-        }
-
-        /**
-         * Created by Juno at 11:20, 2019/4/17.
-         * get description : 以下两种方式返回对象
-         */
-        @SuppressWarnings("unchecked")
-        public <T> T get() {
-            return (T) weakReference.get();
-        }
-
-        public interface Getter<T> {
-            void get(T o);
-        }
-
-        @SuppressWarnings("unchecked")
-        public Again get(Getter getter) {
-            getter.get(weakReference.get());
-            return this;
-        }
-
-        /**
-         * Created by Juno at 9:55, 2019/4/17.
-         * same description : 执行上一次执行的方法
-         */
-        public Again same(Object... args) {
-            Object o = weakReference.get();
-            if (notNull(lastMethod) && notNull(o)) {
-                try {
-                    lastMethod.invoke(o, args);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            return this;
-        }
-
-        /**
-         * Created by Juno at 9:13, 2019/4/17.
-         * cache description : 开启方法缓存，参数：是否为定义方法
-         */
-        public Again cache(boolean declared) {
-            Object o = weakReference.get();
-            if (notNull(o)) {
-                methods = declared ? o.getClass().getDeclaredMethods() : o.getClass().getMethods();
-            }
-            return this;
-        }
-
-        /**
-         * Created by Juno at 9:11, 2019/4/17.
-         * next description : 查看是否有缓存方法，有缓存就读取出来，没有就调用{@link #single(Object, String, Object...)}
-         */
-        public Again next(String methodName, Object... args) {
-            Object o = weakReference.get();
-            if (notNull(methods)) {
-                Method method = findMethod(methods, methodName, args);
-                if (notNull(method)) {
-                    try {
-                        method.invoke(o, args);
-                        lastMethod = method;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else {
-                Method method = findMethod(o, methodName, false, args);
-                lastMethod = method;
-                single(o, method, args);
-            }
-            return this;
-        }
-
-
+    public static void printf(String msg, Object... args) {
+        Timber.e(msg, args);
     }
 
     /**
-     * Created by Juno at 20:18, 2019/4/16.
-     * ExecuteNonNull description : 判断对象为空或非空，使用接口的方式传入相应的方法并执行
+     * Created by Juno at 18:06, 2019/4/21.
+     * again description : 以下为方便调用内部类的静态方法
      */
-    public static class Breakfast<T> {
-
-        public interface Cooker<E> {
-            void cook(E exclusive);
-        }
-
-        private Cooker<T> whenNull = null;
-        private Cooker<T> whenNotNull = null;
-
-        private WeakReference<T> reference;
-
-        public Breakfast(T object) {
-            this.reference = new WeakReference<>(object);
-        }
-
-        public static <E> Breakfast<E> start(E object) {
-            return new Breakfast<>(object);
-        }
-
-        public Breakfast<T> whenNull(Cooker<T> cooker) {
-            this.whenNull = cooker;
-            return this;
-        }
-
-        public Breakfast<T> whenNotNull(Cooker<T> cooker) {
-            this.whenNotNull = cooker;
-            return this;
-        }
-
-        public Breakfast eat() {
-            T breakfast = reference.get();
-            if (notNull(breakfast) && notNull(whenNotNull)) {
-                whenNotNull.cook(breakfast);
-            } else if (isNull(breakfast) && notNull(whenNull)) {
-                whenNull.cook(null);
-            }
-            return this;
-        }
-
-        public Again again() {
-            return new Again().another(reference.get());
-        }
-
+    public static <T> Again<T> again(T object) {
+        return Again.from(object);
     }
 
+    public static <T> Breakfast<T> breakfast(T object) {
+        return Breakfast.start(object);
+    }
+
+    public static Chain chain() {
+        return Chain.start();
+    }
+
+    ////          ////                                       ////
+    ////         /////                                       ////
+    ////         //////                                      ////
+    ////         //////
+    ////         //////
+    ////        ///////
+    ////        ////////        ///// ////   ///////         ////       /// //////
+    ////        ////////      ////////////  //////////       ////       ///////////
+    ////       //// ////      //// ////    /////  ////       ////       /////   ////
+    ////       ////  ////    ////   ////   ////    ///       ////       ////    ////
+    ////       ////  ////    ////   ////          ////       ////       ////    ////
+    ////       //////////     ///   ///       ////////       ////       ////    ////
+    ////      ///////////     //// ////     //////////       ////       ///     ////
+    ////      ////    ////    ////////     ////    ///       ////       ///     ////
+    ////      ////    ////   /// ///       ///     ///       ////       ///     ////
+    ////     ////     ////   ////         ////    ////       ////       ///     ////
+    ////     ////      ////  //////////    //// //////       ////       ///     ////
+    ////     ////      ////   ///////////  ////////////      ////       ///     ////
+    ////                     ///     ////    /////   //
+    ////                    ////      ///
+    ////                     ////    ////
+    ////                     ///////////
 
     /**
      * Created by Juno at 11:38, 2019/4/21.
-     * Again2 description : 强化泛型
+     * Again description : 强化泛型
      */
-    public static class Again2<T> { //TODO Mark here
+    public static class Again<T> {
 
         private WeakReference<T> weakReference;
         private Method[] methods = null;
@@ -476,7 +241,7 @@ public class ObjectUtil {
          * Created by Juno at 16:07, 2019/4/17.
          * ref description : 设置引用
          */
-        private Again2<T> ref(WeakReference<T> reference) {
+        private Again<T> ref(WeakReference<T> reference) {
             this.weakReference = reference;
             return this;
         }
@@ -487,7 +252,7 @@ public class ObjectUtil {
          */
         private static WeakReference<Object[]> sCache;
 
-        public Again2<T> send() {
+        public Again<T> send() {
             Object[] objects = new Object[1];
             objects[0] = weakReference.get();
             sCache = new WeakReference<>(objects);
@@ -498,7 +263,7 @@ public class ObjectUtil {
          * Created by Juno at 21:35, 2019/4/17.
          * cache description : 缓存外部对象，用于when和receive
          */
-        public Again2<T> args(Object... o) {
+        public Again<T> args(Object... o) {
             sCache = new WeakReference<>(o);
             return this;
         }
@@ -507,7 +272,7 @@ public class ObjectUtil {
          * Created by Juno at 21:37, 2019/4/17.
          * receive description : 使用give保存的临时变量来入参，执行后不会清空缓存
          */
-        public Again2<T> receive(String method) {
+        public Again<T> receive(String method) {
             if (notNull(sCache) && notNull(sCache.get())) {
                 next(method, sCache.get());
             }
@@ -518,7 +283,7 @@ public class ObjectUtil {
          * Created by Juno at 14:08, 2019/4/18.
          * when description : 若缓存的是boolean类型，则执行方法，执行后不会清空缓存
          */
-        public Again2<T> when(String method, Object... args) {
+        public Again<T> when(String method, Object... args) {
             if (notNull(sCache) && notNull(sCache.get()) && notNull(sCache.get()[0]) && sCache.get()[0] instanceof Boolean && ((Boolean) sCache.get()[0])) {
                 next(method, args);
             }
@@ -529,11 +294,10 @@ public class ObjectUtil {
          * Created by Juno at 14:13, 2019/4/18.
          * done description : 清空缓存
          */
-        public Again2<T> clean() {
+        public void clean() {
             lastMethod = null;
             methods = null;
             sCache = null;
-            return this;
         }
 
         /**
@@ -544,11 +308,11 @@ public class ObjectUtil {
             void action();
         }
 
-        public static Again2<String> at(Action action) {
-            return new Again2<String>().ref(new WeakReference<>("调用at()中")).still(action);
+        public static Again<String> at(Action action) {
+            return new Again<String>().ref(new WeakReference<>("调用at()中")).still(action);
         }
 
-        public Again2<T> still(Action action) {
+        public Again<T> still(Action action) {
             action.action();
             return this;
         }
@@ -557,16 +321,16 @@ public class ObjectUtil {
          * Created by Juno at 14:09, 2019/4/17.
          * from description : 传入对象初始化并执行方法
          */
-        public static <E> Again2<E> from(E o, String methodName, Object... args) {
-            return new Again2<E>().ref(new WeakReference<>(o)).next(methodName, args);
+        public static <E> Again<E> from(E o, String methodName, Object... args) {
+            return new Again<E>().ref(new WeakReference<>(o)).next(methodName, args);
         }
 
         /**
          * Created by Juno at 14:09, 2019/4/17.
          * from description : 仅初始化
          */
-        public static <E> Again2<E> from(E o) {
-            return new Again2<E>().ref(new WeakReference<>(o));
+        public static <E> Again<E> from(E o) {
+            return new Again<E>().ref(new WeakReference<>(o));
         }
 
         public interface Lazier<Type> {
@@ -577,7 +341,7 @@ public class ObjectUtil {
          * Created by Juno at 14:09, 2019/4/17.
          * is description : 对象为空时赋值
          */
-        public Again2<T> lazy(Lazier<T> lazier) {
+        public Again<T> lazy(Lazier<T> lazier) {
             T o = weakReference.get();
             if (isNull(o)) {
                 o = lazier.lazy();
@@ -591,17 +355,16 @@ public class ObjectUtil {
          * Created by Juno at 11:16, 2019/4/17.
          * another description : 开启另一个调用调用链
          */
-        public <E> Again2<E> another(E o) {
-            Timber.e("ObjectUtil --> %s 调用%s",
-                    isNull(weakReference) ? isNull(o) ? "null"
-                            : o.getClass().getCanonicalName()
-                            : isNull(weakReference.get()) ? "wrf get Null"
-                            : weakReference.get().getClass().getSimpleName()
+        public <E> Again<E> another(E o) {
+            printf("ObjectUtil --> %s 调用%s",
+                    isNull(weakReference)
+                            ? isNull(o) ? "null" : o.getClass().getCanonicalName()
+                            : isNull(weakReference.get()) ? "wrf get Null" : weakReference.get().getClass().getSimpleName()
                     , isNull(weakReference) ? "开始" : "完毕");
             return from(o);
         }
 
-        public <E> Again2<E> another(E o, String method, Object... args) {
+        public <E> Again<E> another(E o, String method, Object... args) {
             return another(o).next(method, args);
         }
 
@@ -613,13 +376,13 @@ public class ObjectUtil {
             Target convert(Source source);
         }
 
-        public <Source, Target> Again2<Target> map(Mapper<? super T, ? extends Target> mapper) {
+        public <Source, Target> Again<Target> map(Mapper<? super T, ? extends Target> mapper) {
             T o = weakReference.get();
             if (notNull(o) && notNull(mapper)) {
                 Target t = mapper.convert(o);
-                return new Again2<Target>().ref(new WeakReference<>(t));
+                return new Again<Target>().ref(new WeakReference<>(t));
             }
-            return new Again2<Target>().ref(new WeakReference<>(null));
+            return new Again<Target>().ref(new WeakReference<>(null));
         }
 
         /**
@@ -634,7 +397,7 @@ public class ObjectUtil {
             void get(Type o);
         }
 
-        public Again2<T> get(Getter<T> getter) {
+        public Again<T> get(Getter<T> getter) {
             getter.get(weakReference.get());
             return this;
         }
@@ -643,7 +406,7 @@ public class ObjectUtil {
          * Created by Juno at 9:55, 2019/4/17.
          * same description : 执行上一次执行的方法
          */
-        public Again2<T> same(Object... args) {
+        public Again<T> same(Object... args) {
             T o = weakReference.get();
             if (notNull(lastMethod) && notNull(o)) {
                 try {
@@ -659,7 +422,7 @@ public class ObjectUtil {
          * Created by Juno at 9:13, 2019/4/17.
          * cache description : 开启方法缓存，参数：是否为定义方法
          */
-        public Again2<T> cache(boolean declared) {
+        public Again<T> cache(boolean declared) {
             T o = weakReference.get();
             if (notNull(o)) {
                 methods = declared ? o.getClass().getDeclaredMethods() : o.getClass().getMethods();
@@ -671,7 +434,7 @@ public class ObjectUtil {
          * Created by Juno at 9:11, 2019/4/17.
          * next description : 查看是否有缓存方法，有缓存就读取出来，没有就调用{@link #single(Object, String, Object...)}
          */
-        public Again2<T> next(String methodName, Object... args) {
+        public Again<T> next(String methodName, Object... args) {
             T o = weakReference.get();
             if (notNull(methods)) {
                 Method method = findMethod(methods, methodName, args);
@@ -690,7 +453,269 @@ public class ObjectUtil {
             }
             return this;
         }
+
+        /**
+         * Created by Juno at 18:03, 2019/4/21.
+         * breakfast description : 返回一个Breakfast对象
+         */
+        public Breakfast<T> breakfast() {
+            return new Breakfast<>(weakReference.get());
+        }
+
+        /**
+         * Created by Juno at 18:03, 2019/4/21.
+         * chain description : 返回一个Chain对象
+         */
+        public Chain chain() {
+            return new Chain();
+        }
     }
 
+
+    ////     ///////////                                                ////               ///////
+    ////     ////////////                                               ////              ////////
+    ////     ////    /////                                              ////             ////                                        ///
+    ////     ////     ////                                              ////             ////                                        ///
+    ////     ////     ////                                              ////             ////                                        ///
+    ////     ////     ////                                              ////             ////                                        ///
+    ////     ////     ////    //// /////      //////       ///////      ////   ///// ////////////      ///////       ///////     ////////////
+    ////     ////   /////     //////////    //////////    //////////    ////  ////   ////////////     //////////    //////////   ////////////
+    ////     ///////////      ///////      /////  ////   /////  ////    //// ////        ////        /////  ////   /////  ////       ///
+    ////     ////////////     //////       ////    ////  ////    ///    ////////         ////        ////    ///   ////    ///       ///
+    ////     ////     ////    /////        ///     ////         ////    ////////         ////               ////   ////              ///
+    ////     ////     ////    ////        /////////////     ////////    ////////         ////           ////////    ///////          ///
+    ////     ////      ////   ////        ////            //////////    /////////        ////         //////////     /////////       ///
+    ////     ////      ////   ////        ////           ////    ///    ////  ///        ////        ////    ///          ////       ///
+    ////     ////     /////   ////         ////    ////  ///     ///    ////  ////       ////        ///     ///           ////      ///
+    ////     ////     ////    ////         ////    //// ////    ////    ////   ////      ////       ////    ////   ////    ////      ////
+    ////     /////////////    ////          ///// ////   //// //////    ////   ////      ////        //// //////   /////  ////       ////  ///
+    ////     ////////////     ////           ////////    ////////////   ////    ////     ////        ////////////   //////////        ////////
+    ////                                       ////        /////   //                                  /////   //      /////            /////
+
+    /**
+     * Created by Juno at 20:18, 2019/4/16.
+     * ExecuteNonNull description : 判断对象为空或非空，使用接口的方式传入相应的方法并执行
+     */
+    public static class Breakfast<T> {
+
+        public static final String BREAKFAST = "@ObjectUtil$Breakfast";
+
+        public interface Cooker<E> {
+            void cook(E exclusive);
+        }
+
+        private Cooker<T> whenNull = null;
+        private Cooker<T> whenNotNull = null;
+
+        private WeakReference<T> reference;
+
+        public Breakfast(T object) {
+            this.reference = new WeakReference<>(object);
+        }
+
+        /**
+         * Created by Juno at 17:50, 2019/4/21.
+         * start description : 开启Breakfast
+         */
+        public static <E> Breakfast<E> start(E object) {
+            return new Breakfast<>(object);
+        }
+
+        /**
+         * Created by Juno at 17:51, 2019/4/21.
+         * whenNull description : 当对象为空时执行
+         */
+        public Breakfast<T> whenNull(Cooker<T> cooker) {
+            this.whenNull = cooker;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:51, 2019/4/21.
+         * whenNotNull description : 当对象不为空时执行
+         */
+        public Breakfast<T> whenNotNull(Cooker<T> cooker) {
+            this.whenNotNull = cooker;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:51, 2019/4/21.
+         * eat description : 执行代码，不难省略
+         */
+        public Breakfast eat() {
+            T breakfast = reference.get();
+            if (notNull(breakfast) && notNull(whenNotNull)) {
+                whenNotNull.cook(breakfast);
+            } else if (isNull(breakfast) && notNull(whenNull)) {
+                whenNull.cook(null);
+            }
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:48, 2019/4/21.
+         * again description : 返回一个Again对象，保持泛型
+         */
+        public Again<T> again() {
+            return new Again<T>().another(reference.get());
+        }
+
+        /**
+         * Created by Juno at 17:48, 2019/4/21.
+         * chain description : 返回一个Chain对象
+         */
+        public Chain chain() {
+            return new Chain();
+        }
+
+    }
+
+    ////         ///////     ///                             ////
+    ////       //////////    ///                             ////
+    ////       ////   ////   ///                             ////
+    ////      ////    ////   ///
+    ////      ////     ////  ///
+    ////      ////     ////  ///
+    ////     /////           /// //////      ///////         ////       /// //////
+    ////     ////            ///////////    //////////       ////       ///////////
+    ////     ////            /////   ////  /////  ////       ////       /////   ////
+    ////     ////            ////    ////  ////    ///       ////       ////    ////
+    ////     ////            ////    ////         ////       ////       ////    ////
+    ////     ////      ////  ////    ////     ////////       ////       ////    ////
+    ////     /////     ////  ///     ////   //////////       ////       ///     ////
+    ////      ////     ////  ///     ////  ////    ///       ////       ///     ////
+    ////      ////    ////   ///     ////  ///     ///       ////       ///     ////
+    ////      /////   ////   ///     //// ////    ////       ////       ///     ////
+    ////       //////////    ///     ////  //// //////       ////       ///     ////
+    ////        ////////     ///     ////  ////////////      ////       ///     ////
+    ////          ////                       /////   //
+
+    /**
+     * Created by Juno at 20:09, 2019/4/16.
+     * Chain description : 链式调用事件的类，处理频繁的if-else，（when -> react）
+     */
+    public static class Chain {
+
+        public static final String CHAIN = "@ObjectUtil$Chain";
+
+        private List<Situation> situations = new ArrayList<>();
+        private List<Solution> solutions = new ArrayList<>();
+
+        private Celebration celebration = null;
+        private boolean stop;
+        private boolean needStop = false;
+
+        public interface Situation {
+            boolean when();
+        }
+
+        public interface Solution {
+            void react();
+        }
+
+        public interface Celebration {
+            void celebrate();
+        }
+
+        /**
+         * Created by Juno at 17:55, 2019/4/21.
+         * start description : 用静态方法新建Chain对象
+         */
+        public static Chain start() {
+            return new Chain();
+        }
+
+        /**
+         * Created by Juno at 17:52, 2019/4/21.
+         * stopWhen description : 当调用该方法的时候，调用链遇到为真或为假的表达式即会停止执行
+         */
+        public Chain stopWhen(boolean stop) {
+            this.stop = stop;
+            needStop = true;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:53, 2019/4/21.
+         * when description : 设置表达式
+         */
+        public Chain when(Situation situation) {
+            situations.add(situation);
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:53, 2019/4/21.
+         * react description : 设置当表达式为真时的行动
+         */
+        public Chain react(Solution solution) {
+            solutions.add(solution);
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:53, 2019/4/21.
+         * doWhenSuccess description : 当调用链执行完毕后调用此方法中的celebration
+         */
+        public Chain doWhenSuccess(Celebration celebration) {
+            this.celebration = celebration;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:54, 2019/4/21.
+         * flow description : 调用链开始执行，不能省略该方法
+         */
+        public Chain flow() {
+            if (situations.size() != solutions.size()) {
+                return this;
+            }
+            for (int i = 0; i < situations.size(); ++i) {
+                Situation situation = situations.get(i);
+                Solution solution = solutions.get(i);
+                if (situation.when()) {
+                    solution.react();
+                    if (needStop && stop) {
+                        return this;
+                    }
+                } else if (needStop && !stop) {
+                    return this;
+                }
+            }
+            if (celebration != null) {
+                celebration.celebrate();
+            }
+            celebration = null;
+            situations = null;
+            solutions = null;
+            return this;
+        }
+
+        /**
+         * Created by Juno at 17:59, 2019/4/21.
+         * breakfast description : 返回一个Breakfast对象
+         */
+        public Breakfast<String> breakfast() {
+            return new Breakfast<>(CHAIN);
+        }
+
+        public <T> Breakfast<T> breakfast(T object) {
+            return new Breakfast<>(object);
+        }
+
+        /**
+         * Created by Juno at 18:01, 2019/4/21.
+         * again description : 返回一个Again对象
+         */
+        public Again<String> again() {
+            return new Again<String>().ref(new WeakReference<>(CHAIN));
+        }
+
+        public <T> Again<T> again(T object) {
+            return new Again<T>().ref(new WeakReference<>(object));
+        }
+
+    }
 
 }

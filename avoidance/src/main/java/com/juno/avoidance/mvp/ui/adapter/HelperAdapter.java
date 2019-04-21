@@ -12,7 +12,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-import static com.juno.avoidance.utils.ObjectUtil.Again2.*;
+import static com.juno.avoidance.utils.ObjectUtil.Again.*;
 
 /**
  * Created by Juno.
