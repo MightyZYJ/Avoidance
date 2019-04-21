@@ -134,7 +134,7 @@ public class ContactFragment extends BindFragment implements MultiChoicesCircleB
 
     public void showLoading() {
         dialog = from(dialog)
-                .lazy(() -> QMUIUtil.load(getContext(), "正在加载..."))
+                .lazy(() -> QMUIUtil.TipDialog.load(getContext(), "正在加载..."))
                 .next("show")
                 .get();
     }

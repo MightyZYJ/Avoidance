@@ -13,13 +13,13 @@ import com.youth.banner.loader.ImageLoader;
  * Date : 2019/4/18.
  * Time : 22:22.
  * When I met you in the summer.
- * Description : 提供一个圆角的Banner
+ * Description : 依赖Banner和RoundedImageView
  */
 public class BannerUtil {
 
     /**
      * Created by Juno at 22:23, 2019/4/18.
-     * GlideImageLoader description :
+     * GlideImageLoader description : 提供一个圆角的Banner
      */
     public static class GlideImageLoader extends ImageLoader {
 

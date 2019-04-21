@@ -71,8 +71,8 @@ public class DeviceAdapter extends CommonAdapter<Device> {
 
             if (notNull(context) && notNull(data)) {
                 at(data.get(position).isState() ?
-                        (ObjectUtil.Again.Action) () -> ArmsUtils.startActivity(MapActivity.class) :
-                        (ObjectUtil.Again.Action) () -> QMUIUtil.info(context, "设备未登陆").show());
+                        () -> ArmsUtils.startActivity(MapActivity.class) :
+                        () -> QMUIUtil.TipDialog.info(context, "设备未登陆").show());
             }
 
         }

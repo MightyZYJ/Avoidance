@@ -65,7 +65,7 @@ public class DeviceFragment extends BindFragment<HomePresenter> implements Multi
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
 
-        from(new ArrayList<>()).cache(true) //设置3d选择器
+        from(new ArrayList<MultiChoicesCircleButton.Item>()).cache(true) //设置3d选择器
                 .next("add", new MultiChoicesCircleButton.Item(devices[0], getResources().getDrawable(R.drawable.icon_help), 30))
                 .same(new MultiChoicesCircleButton.Item(devices[1], getResources().getDrawable(R.drawable.icon_gps), 90))
                 .same(new MultiChoicesCircleButton.Item(devices[2], getResources().getDrawable(R.drawable.icon_brand), 150))

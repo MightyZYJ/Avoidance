@@ -144,7 +144,7 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
     @Override
     public void showLoading() {
         mDialog = ObjectUtil.Again.from(mDialog)
-                .lazy(() -> QMUIUtil.load(this, "正在加载..."))
+                .lazy(() -> QMUIUtil.TipDialog.load(this, "正在加载..."))
                 .next("show")
                 .get();
     }

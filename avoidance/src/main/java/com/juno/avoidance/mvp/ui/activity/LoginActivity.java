@@ -177,7 +177,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void showLoading() {
         mDialog = Again.from(mDialog)
-                .lazy(() -> QMUIUtil.load(this, "正在加载..."))
+                .lazy(() -> QMUIUtil.TipDialog.load(this, "正在加载..."))
                 .next("show")
                 .get();
     }

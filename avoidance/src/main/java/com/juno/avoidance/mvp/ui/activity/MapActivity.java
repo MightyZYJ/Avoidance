@@ -3,7 +3,13 @@ package com.juno.avoidance.mvp.ui.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptor;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.CameraPosition;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.juno.avoidance.R;
 import com.juno.avoidance.utils.ObjectUtil.Again.*;
 import com.juno.avoidance.utils.SlidrUtil;
@@ -24,6 +30,9 @@ public class MapActivity extends AppCompatActivity {
     @BindView(R.id.map)
     MapView mapView;
 
+    public static final LatLng HERE = new LatLng(23.035219, 113.398205);
+    public static final BitmapDescriptor MARKER = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +41,10 @@ public class MapActivity extends AppCompatActivity {
         at(() -> ButterKnife.bind(this))
                 .still(() -> Slidr.attach(this, SlidrUtil.config(this)))
                 .still(() -> QMUIStatusBarHelper.setStatusBarLightMode(this))
-                .still(() -> mapView.onCreate(savedInstanceState));
+                .still(() -> mapView.onCreate(savedInstanceState))
+                .another(mapView.getMap(), "animateCamera", CameraUpdateFactory.newCameraPosition(new CameraPosition(HERE, 12, 0, 0)))
+                .next("addMarker", new MarkerOptions().position(HERE).icon(MARKER));
+
     }
 
     @Override
