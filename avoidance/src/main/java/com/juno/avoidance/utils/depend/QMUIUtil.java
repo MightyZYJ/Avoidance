@@ -1,4 +1,4 @@
-package com.juno.avoidance.utils;
+package com.juno.avoidance.utils.depend;
 
 import android.content.Context;
 import android.support.annotation.IntRange;

@@ -20,7 +20,7 @@ import com.juno.avoidance.mvp.presenter.ContactPresenter;
 import com.juno.avoidance.mvp.ui.adapter.ContactAdapter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
 import com.juno.avoidance.utils.ChainUtil;
-import com.juno.avoidance.utils.QMUIUtil;
+import com.juno.avoidance.utils.depend.QMUIUtil;
 
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.*;
@@ -38,7 +38,7 @@ import butterknife.BindView;
 import timber.log.Timber;
 
 import static com.juno.avoidance.utils.ObjectUtil.Again.*;
-import static com.juno.avoidance.utils.QMUIUtil.Dialog.*;
+import static com.juno.avoidance.utils.depend.QMUIUtil.Dialog.*;
 
 /**
  * Created by Juno.

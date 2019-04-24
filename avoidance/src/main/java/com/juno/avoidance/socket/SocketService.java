@@ -8,11 +8,13 @@ import android.support.v4.app.NotificationCompat;
 
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.model.api.Api;
+import com.juno.avoidance.mvp.model.entity.http.GpsResponse;
 import com.juno.avoidance.mvp.model.entity.http.Response;
 import com.juno.avoidance.mvp.ui.activity.EmergencyActivity;
 import com.juno.avoidance.mvp.ui.activity.MapActivity;
 import com.juno.avoidance.utils.NotificationUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import static com.juno.avoidance.utils.NotificationUtil.Manager.CHANNEL_ID;
@@ -38,19 +40,24 @@ public class SocketService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-//        WebSocketManager.connect(this, Api.APP_SOCKET);
+        EventBus.getDefault().register(this);
+        WebSocketManager.connect(this);
         manager = new NotificationUtil.Manager().context(this);
         startForeground(100, new NotificationCompat.Builder(this, CHANNEL_ID).setPriority(NotificationCompat.PRIORITY_MAX).build());
     }
 
     @Subscribe
-    public void receive(Response.ResponseRecord responseRecord) {
-        manager.create("收到报警信息！！", "你的关注对象发出报警信息，请速查看", R.drawable.ic_locate, EmergencyActivity.class);
+    public void receive(GpsResponse.ResultBean resultBean) {
+        if (resultBean.getInfo() != null && resultBean.getInfo().equals("help")) {
+            manager.create("收到报警信息！！", "你的关注对象发出报警信息，请速查看", R.drawable.ic_locate, EmergencyActivity.class);
+            startActivity(new Intent(this, EmergencyActivity.class));
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         manager.destroy();
+        EventBus.getDefault().unregister(this);
     }
 }

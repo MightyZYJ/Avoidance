@@ -1,4 +1,4 @@
-package com.juno.avoidance.utils;
+package com.juno.avoidance.utils.depend;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

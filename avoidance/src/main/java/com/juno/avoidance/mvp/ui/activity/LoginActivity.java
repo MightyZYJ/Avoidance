@@ -28,7 +28,7 @@ import com.juno.avoidance.di.component.DaggerLoginComponent;
 import com.juno.avoidance.mvp.contract.LoginContract;
 import com.juno.avoidance.mvp.presenter.LoginPresenter;
 import com.juno.avoidance.socket.SocketService;
-import com.juno.avoidance.utils.QMUIUtil;
+import com.juno.avoidance.utils.depend.QMUIUtil;
 
 import static com.juno.avoidance.utils.ViewUtil.animate;
 import static com.juno.avoidance.utils.ObjectUtil.Again.*;

@@ -12,7 +12,7 @@ import com.jess.arms.utils.ArmsUtils;
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.model.entity.Device;
 import com.juno.avoidance.mvp.ui.activity.MapActivity;
-import com.juno.avoidance.utils.QMUIUtil;
+import com.juno.avoidance.utils.depend.QMUIUtil;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;

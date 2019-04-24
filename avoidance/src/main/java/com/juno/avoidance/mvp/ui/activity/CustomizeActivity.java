@@ -21,14 +21,15 @@ import com.juno.avoidance.mvp.model.entity.msg.MsgTitle;
 import com.juno.avoidance.mvp.presenter.CustomizePresenter;
 
 import com.juno.avoidance.R;
-import com.juno.avoidance.utils.QMUIUtil;
-import com.juno.avoidance.utils.SlidrUtil;
+import com.juno.avoidance.utils.depend.QMUIUtil;
+import com.juno.avoidance.utils.depend.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.r0adkll.slidr.Slidr;
 
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 import static com.juno.avoidance.utils.ObjectUtil.Again.*;
@@ -114,7 +115,15 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
                 .another(deviceNameTv, "setText", Html.fromHtml(text[0]))
                 .another(functionTv, "setText", Html.fromHtml(text[1]))
                 .another(agreeCb, "setText", Html.fromHtml(text[2]))
+                .fork()
+                .setBefore((proxy, method, args) -> {
+                    Timber.e(method.getName());
+                    return true;
+                })
+                .get()
+                .next("setChecked", true)
                 .clean();
+
     }
 
     /**
@@ -156,4 +165,5 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
     public void killMyself() {
         finish();
     }
+
 }

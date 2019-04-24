@@ -1,10 +1,10 @@
 package com.juno.avoidance.mvp.model.entity.http;
 
+import com.google.gson.annotations.SerializedName;
 import com.juno.avoidance.mvp.model.entity.Contact;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -19,6 +19,9 @@ public class Response {
 
     private int state;
     private String info;
+    /**
+     * result : {"latitude":23.06679,"longitude":113.3857,"info":"help"}
+     */
 
     public StateCodeEnum to() {
         return StateCodeEnum.from(state);
@@ -62,19 +65,6 @@ public class Response {
                 default:
                     return UNKNOWN;
             }
-        }
-    }
-
-
-    @Data
-    public static class ResponseRecord {
-        private ResponseRecord result;
-
-        @Data
-        public static class Record {
-            private double latitude;
-            private double longitude;
-            private String info;
         }
     }
 

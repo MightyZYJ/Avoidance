@@ -7,7 +7,7 @@ import com.juno.avoidance.mvp.model.entity.http.Request;
 import com.juno.avoidance.mvp.model.entity.http.Response;
 import com.juno.avoidance.mvp.model.entity.msg.MsgContact;
 import com.juno.avoidance.mvp.ui.fragment.ContactFragment;
-import com.juno.avoidance.utils.RxUtil;
+import com.juno.avoidance.utils.depend.RxUtil;
 
 import org.greenrobot.eventbus.EventBus;
 

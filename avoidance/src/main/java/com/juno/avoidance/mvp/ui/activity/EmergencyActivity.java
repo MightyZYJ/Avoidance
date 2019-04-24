@@ -37,4 +37,7 @@ public class EmergencyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_emergency);
         ButterKnife.bind(this);
     }
+
+
+
 }

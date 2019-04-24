@@ -25,6 +25,7 @@
 
         <activity
             android:name=".mvp.ui.activity.MapActivity"
+            android:launchMode="singleTask"
             android:theme="@style/SlideTheme">
 
         </activity>
@@ -43,7 +44,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".mvp.ui.activity.EmergencyActivity">
+        <activity
+            android:name=".mvp.ui.activity.EmergencyActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/SlideTheme">
 
         </activity>
 

@@ -19,7 +19,7 @@ import com.juno.avoidance.mvp.ui.fragment.ContactFragment;
 import com.juno.avoidance.mvp.ui.fragment.DeviceFragment;
 import com.juno.avoidance.mvp.ui.fragment.HelpFragment;
 import com.juno.avoidance.utils.FragmentUtil;
-import com.juno.avoidance.utils.QMUIUtil;
+import com.juno.avoidance.utils.depend.QMUIUtil;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;

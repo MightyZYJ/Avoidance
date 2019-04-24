@@ -1,4 +1,4 @@
-package com.juno.avoidance.utils;
+package com.juno.avoidance.utils.depend;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">智能急救</string>
     <string name="agree">同意QG科技创新团队的&lt;font color="#3D90F5"&gt;用户协议&lt;/font&gt;和&lt;font color="#3D90F5"&gt;隐私政策&lt;/font&gt;</string>
     <string name="send_verify">发送验证码</string>
 

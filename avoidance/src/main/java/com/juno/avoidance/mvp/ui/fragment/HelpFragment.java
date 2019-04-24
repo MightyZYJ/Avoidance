@@ -15,7 +15,7 @@ import com.juno.avoidance.mvp.presenter.HomePresenter;
 import com.juno.avoidance.mvp.ui.adapter.HelperAdapter;
 import com.juno.avoidance.mvp.ui.adapter.HistoryAdapter;
 import com.juno.avoidance.mvp.ui.fragment.base.BindFragment;
-import com.juno.avoidance.utils.BannerUtil;
+import com.juno.avoidance.utils.depend.BannerUtil;
 import com.youth.banner.Banner;
 
 import org.greenrobot.eventbus.EventBus;
