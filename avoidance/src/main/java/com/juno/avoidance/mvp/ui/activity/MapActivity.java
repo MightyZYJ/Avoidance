@@ -14,7 +14,6 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.juno.avoidance.R;
 import com.juno.avoidance.mvp.model.entity.http.GpsResponse;
-import com.juno.avoidance.mvp.model.entity.http.Response;
 import com.juno.avoidance.utils.depend.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.r0adkll.slidr.Slidr;
@@ -37,7 +36,9 @@ public class MapActivity extends AppCompatActivity {
     @BindView(R.id.map)
     MapView mapView;
 
-    public static final LatLng HERE = new LatLng(23.035219, 113.398205);
+    public static final LatLng HERE = new LatLng(23.069154, 113.393221); //中大教A
+//    public static final LatLng HERE = new LatLng(23.035219, 113.398205); 工一
+
     public static final BitmapDescriptor MARKER = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
 
     @Override

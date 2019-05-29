@@ -10,14 +10,11 @@ package com.juno.avoidance.mvp.model.api;
  * ================================================
  */
 public interface Api {
-    String APP_DOMAIN = "http://134.175.125.238:10110";
-    //    String APP_DOMAIN = "http://192.168.31.62:8888";
+    String APP_DOMAIN = "http://39.98.41.126:11115";
 
-    String APP_SOCKET = "ws://134.175.125.238:10110/ws?gid=1";
-    //    String APP_SOCKET = "ws://192.168.31.62:8888/ws?gid=1";
+    String APP_SOCKET = "ws://39.98.41.126:11115/ws?gid=1";
 
-    //    String APP_IMAGE = "https://raw.githubusercontent.com/MightyZYJ/Avoidance/master/image";
-    //    String APP_IMAGE = "http://134.175.125.238:10003";
-    String APP_IMAGE = "http://134.175.125.238:10110";
+//    String APP_IMAGE = "http://39.98.41.126:11115";
+    String APP_IMAGE = "https://raw.githubusercontent.com/MightyZYJ/Avoidance/master";
 
 }

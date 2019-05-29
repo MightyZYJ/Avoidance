@@ -25,6 +25,7 @@ import com.juno.avoidance.utils.depend.QMUIUtil;
 import com.juno.avoidance.utils.depend.SlidrUtil;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.r0adkll.slidr.Slidr;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -123,7 +124,6 @@ public class CustomizeActivity extends BaseActivity<CustomizePresenter> implemen
                 .get()
                 .next("setChecked", true)
                 .clean();
-
     }
 
     /**
